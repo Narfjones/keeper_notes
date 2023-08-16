@@ -20,7 +20,7 @@ public class Animal {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int animalId;
+	private Long animalId;
 	
 	private String species;
 	private String commonName;

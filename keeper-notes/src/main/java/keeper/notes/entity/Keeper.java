@@ -21,11 +21,11 @@ import lombok.ToString;
 public class Keeper {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int keeperId;
+	private Long keeperId;
 	
 	private String firstName;
 	private String lastName;
-	private int radioNumber;
+	private Long radioNumber;
 	
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude

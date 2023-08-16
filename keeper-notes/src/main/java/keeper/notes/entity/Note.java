@@ -17,7 +17,7 @@ public class Note {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int noteId;
+	private Long noteId;
 	private String noteDate;
 	private String noteText;
 	
