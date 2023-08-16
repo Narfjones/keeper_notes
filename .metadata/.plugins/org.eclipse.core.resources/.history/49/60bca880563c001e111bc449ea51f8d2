@@ -1,0 +1,10 @@
+package keeper.notes;
+
+public class KeeperNotesApplication {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
