@@ -24,6 +24,7 @@ public class Animal {
 	
 	private String species;
 	private String commonName;
+	private String animalName;
 	private String location;
 	
 	//I want a note to get deleted if the animal it references is deleted

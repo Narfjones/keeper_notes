@@ -15,6 +15,7 @@ CREATE TABLE animal(
 	animal_id int NOT NULL AUTO_INCREMENT,
 	species varchar(128) NOT NULL,
 	common_name varchar(128) NOT NULL,
+	animal_name varchar(128) NOT NULL,
 	location varchar(128) NOT NULL,
 	PRIMARY KEY(animal_id)
 );

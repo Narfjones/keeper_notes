@@ -15,14 +15,16 @@ public class AnimalData {
 	private Long animalId;	
 	private String species;
 	private String commonName;
+	private String animalName;
 	private String location;
 	private Set<NoteData> notes = new HashSet<>();
-	private Set<KeeperData> keepers = new HashSet<>();
+	private Set<String> keepers = new HashSet<>();
 	
 	public AnimalData(Animal animal) {
 		animalId = animal.getAnimalId();
 		species = animal.getSpecies();
 		commonName = animal.getCommonName();
+		animalName = animal.getAnimalName();
 		location = animal.getLocation();
 		
 		for(Note note: animal.getNotes()) {
@@ -30,7 +32,7 @@ public class AnimalData {
 		}
 		
 		for(Keeper keeper: animal.getKeepers()) {
-			keepers.add(new KeeperData(keeper));
+			keepers.add(keeper.getFirstName() +" "+ keeper.getLastName());
 		}
 	}
 }
