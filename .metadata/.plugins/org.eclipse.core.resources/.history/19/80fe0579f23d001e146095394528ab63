@@ -1,0 +1,27 @@
+package keeper.notes.controller.model;
+
+import keeper.notes.entity.Animal;
+import keeper.notes.entity.Keeper;
+import keeper.notes.entity.Note;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+public class NoteData {
+	private Long noteId;
+	private String noteDate;
+	private String noteText;
+	private Keeper keeper;
+	private Animal animal;
+	
+	public NoteData(Note note) {
+		noteId = note.getNoteId();
+		noteDate = note.getNoteDate();
+		noteText = note.getNoteText();
+		keeper = note.getKeeper();
+		animal = note.getAnimal();
+		
+		
+	}
+}

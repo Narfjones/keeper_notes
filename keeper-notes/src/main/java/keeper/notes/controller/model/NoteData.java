@@ -10,10 +10,15 @@ public class NoteData {
 	private Long noteId;
 	private String noteDate;
 	private String noteText;
+	private Long keeperId;
+	private Long animalId;
 	
 	public NoteData(Note note) {
 		noteId = note.getNoteId();
 		noteDate = note.getNoteDate();
 		noteText = note.getNoteText();
+		keeperId = note.getKeeper().getKeeperId();
+		animalId = note.getAnimal().getAnimalId();	
+		
 	}
 }

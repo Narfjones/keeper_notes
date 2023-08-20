@@ -24,7 +24,8 @@ CREATE TABLE animal_keeper(
 	keeper_id int NOT NULL,
 	animal_id int NOT NULL,
 	FOREIGN KEY(keeper_id) REFERENCES keeper(keeper_id) ON DELETE CASCADE,
-	FOREIGN KEY(animal_id) REFERENCES animal(animal_id) ON DELETE CASCADE
+	FOREIGN KEY(animal_id) REFERENCES animal(animal_id) ON DELETE CASCADE,
+	UNIQUE KEY(keeper_id, animal_id)
 );
 
 CREATE TABLE note(

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,11 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import keeper.notes.controller.model.AnimalData;
 import keeper.notes.controller.model.KeeperData;
+import keeper.notes.controller.model.NoteData;
 import keeper.notes.service.KeeperNotesService;
 import lombok.extern.slf4j.Slf4j;
 
+
 @RestController
 @RequestMapping("/keeper_notes")
+@CrossOrigin(origins = "http://localhost:5173")
 @Slf4j
 public class KeeperNotesController {
 
@@ -69,12 +73,22 @@ public class KeeperNotesController {
 		return Map.of("message", "Successfully removed keeper with ID=" + keeperId);
 	}
 	
-	@PutMapping("/keeper/{keeperId}/animal/{animalId}")
+	@PutMapping("/assign/keeper{keeperId}/animal{animalId}")
 	@ResponseStatus(code = HttpStatus.OK)
 	public KeeperData assignAnimalToKeeper(@PathVariable Long keeperId,@PathVariable Long animalId) {
 		log.info("Assigning animal with ID= {} to keeper with ID= {}", animalId, keeperId);
 		return keeperNotesService.assignAnimalToKeeper(keeperId, animalId);
 	}
+	
+	
+	@PutMapping("/remove/keeper{keeperId}/animal{animalId}")
+	@ResponseStatus(code = HttpStatus.OK)
+	public KeeperData removeAnimalFromKeeper(@PathVariable Long keeperId,@PathVariable Long animalId) {
+		log.info("Assigning animal with ID= {} to keeper with ID= {}", animalId, keeperId);
+		return keeperNotesService.removeAnimalFromKeeper(keeperId, animalId);
+	}
+	
+	
 	
 	
 	/*All mapping for Animal entity*/
@@ -103,7 +117,7 @@ public class KeeperNotesController {
 	@PutMapping("/animal/{animalId}")
 	@ResponseStatus(code = HttpStatus.OK)
 	public AnimalData updateAnimalInfo(@PathVariable Long animalId, @RequestBody AnimalData animalData) {
-		log.info("Updating keeper with ID= {}", animalId);
+		log.info("Updating animal with ID= {}", animalId);
 		animalData.setAnimalId(animalId);
 		return keeperNotesService.saveAnimal(animalData);
 	}
@@ -116,4 +130,50 @@ public class KeeperNotesController {
 		keeperNotesService.deleteAnimalById(animalId);
 		return Map.of("message", "Successfully removed animal with ID=" + animalId);
 	}
+	
+	/*All mapping for Note entity*/
+	
+	@PostMapping("/note/keeper{keeperId}/animal{animalId}")
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public NoteData createNote(@PathVariable Long keeperId, @PathVariable Long animalId, @RequestBody NoteData noteData) {
+		log.info("Creating note {} from keeper {}, about animal {}", noteData, keeperId, animalId);
+		return keeperNotesService.saveNote(keeperId, animalId, noteData);
+	}
+	
+	@GetMapping()
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<NoteData> listAllNotes(){
+		log.info("Retrieving all notes");
+		return keeperNotesService.retrieveAllNotes();
+	}
+	
+	@GetMapping("/{noteId}")
+	@ResponseStatus(code = HttpStatus.OK)
+	public NoteData retrieveNoteById(@PathVariable Long noteId) {
+		log.info("Retrieving note with ID=", noteId);
+		return keeperNotesService.retrieveNoteById(noteId);
+	}
+	
+	@GetMapping("/note/keeper{keeperId}")
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<NoteData> listAllNotesByKeeper(@PathVariable Long keeperId){
+		log.info("Retrieving all notes by keeper with ID_=", keeperId);
+		return keeperNotesService.listAllNotesByKeeper(keeperId);
+	}
+	@GetMapping("/note/animal{animalId}")
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<NoteData> listAllNotesAboutAnimal(@PathVariable Long animalId){
+		log.info("Retrieving all notes about animal with ID_=", animalId);
+		return keeperNotesService.listAllNotesAboutAnimal(animalId);
+	}
+	
+	@PutMapping("/note/keeper{keeperId}/animal{animalId}/note{noteId}")
+	@ResponseStatus(code = HttpStatus.OK)
+	public NoteData updateNote(@PathVariable Long keeperId, @PathVariable Long animalId, @PathVariable Long noteId, @RequestBody NoteData noteData) {
+		log.info("Updating note {} from keeper {}, about animal {}", noteData, keeperId, animalId);
+		noteData.setNoteId(noteId);
+		return keeperNotesService.saveNote(keeperId, animalId, noteData);
+	}
+	
+
 }

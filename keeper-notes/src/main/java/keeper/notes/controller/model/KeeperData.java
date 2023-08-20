@@ -17,7 +17,7 @@ public class KeeperData {
 	private String lastName;
 	private Long radioNumber;
 	private Set<NoteData> notes = new HashSet<>();
-	private Set<AnimalData> animals = new HashSet<>();
+	private Set<String> animals = new HashSet<>();
 	
 	public KeeperData(Keeper keeper) {
 		keeperId = keeper.getKeeperId();
@@ -30,7 +30,7 @@ public class KeeperData {
 		}
 		
 		for(Animal animal: keeper.getAnimals()) {
-			animals.add(new AnimalData(animal));
+			animals.add("ID - " + animal.getAnimalId().toString() + ": " + animal.getCommonName() + ", " + animal.getLocation());
 		}
 	}
 }
