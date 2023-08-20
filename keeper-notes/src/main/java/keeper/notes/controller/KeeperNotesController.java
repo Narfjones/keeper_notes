@@ -114,6 +114,13 @@ public class KeeperNotesController {
 		return keeperNotesService.retrieveAnimalById(animalId);
 	}
 	
+	@GetMapping("/animal/keeper{keeperId}")
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<AnimalData> listAllAnimalsAssignedToKeeper(@PathVariable Long keeperId){
+		log.info("Retrieving all animals assigned to keeper with ID={}", keeperId);
+		return keeperNotesService.listAllAnimalsAssignedToKeeper(keeperId);
+	}
+	
 	@PutMapping("/animal/{animalId}")
 	@ResponseStatus(code = HttpStatus.OK)
 	public AnimalData updateAnimalInfo(@PathVariable Long animalId, @RequestBody AnimalData animalData) {

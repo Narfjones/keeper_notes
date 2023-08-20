@@ -6,24 +6,25 @@ export default function Keepers() {
 
   const URL = "http://localhost:8080/keeper_notes";
 
-  const fetchKeepers = async () => {
+  const fetchAllKeepers = async () => {
     const res = await fetch(`${URL}/keeper`);
     const data = await res.json();
     setKeepers(data);
   };
 
   React.useEffect(() => {
-    fetchKeepers();
+    fetchAllKeepers();
   }, []);
 
   return (
     <div>
-      <h1>Keepers</h1>
-      <Table>
+      <h1 className="text-center">Keepers</h1>
+      <Table className="text-center">
         <thead>
           <tr>
             <th>Keeper Name</th>
             <th>Radio Number</th>
+            <th>Assigned animals</th>
           </tr>
         </thead>
         <tbody>
@@ -31,6 +32,13 @@ export default function Keepers() {
             <tr key={keeper.keeperId}>
               <td>{keeper.firstName + " " + keeper.lastName}</td>
               <td>{keeper.radioNumber}</td>
+              <td>
+                <ul>
+                  {keeper.animals.map((animal, index) => (
+                    <li key={index}>{animal}</li>
+                  ))}
+                </ul>
+              </td>
             </tr>
           ))}
         </tbody>

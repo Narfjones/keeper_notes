@@ -127,6 +127,25 @@ public class KeeperNotesService {
 		animalDao.delete(animal);
 
 	}
+	
+	@Transactional(readOnly = true)
+	public List<AnimalData> listAllAnimalsAssignedToKeeper(Long keeperId) {
+		findKeeperById(keeperId);
+		List<Animal> animals = animalDao.findAll();
+		List<AnimalData> animalList = new LinkedList<>();
+		
+		for (Animal animal : animals) {
+			for(Keeper keeper : animal.getKeepers()) {
+				if(keeper.getKeeperId().equals(keeperId)) {
+					AnimalData temp = new AnimalData(animal);
+					animalList.add(temp);
+				}
+			}
+		}
+		return animalList;
+		
+	}
+
 
 	private void copyAnimalData(Animal animal, AnimalData animalData) {
 		animal.setAnimalId(animalData.getAnimalId());
@@ -265,4 +284,5 @@ public class KeeperNotesService {
 		return animalNotesList;
 	}
 
+	
 }
