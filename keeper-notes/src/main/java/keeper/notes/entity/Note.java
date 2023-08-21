@@ -1,5 +1,7 @@
 package keeper.notes.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,8 +20,9 @@ public class Note {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long noteId;
-	private String noteDate;
+	private LocalDateTime createdAt;
 	private String noteText;
+	private LocalDateTime updatedAt;
 	
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude

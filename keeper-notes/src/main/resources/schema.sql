@@ -30,8 +30,9 @@ CREATE TABLE animal_keeper(
 
 CREATE TABLE note(
 	note_id int NOT NULL AUTO_INCREMENT,
-	note_date varchar(30) NOT NULL,
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	note_text varchar(2048) NOT NULL,
+	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	keeper_id int,
 	animal_id int NOT NULL,
 	PRIMARY KEY(note_id),

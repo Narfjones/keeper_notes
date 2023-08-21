@@ -1,5 +1,6 @@
 package keeper.notes.service;
 
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -209,13 +210,14 @@ public class KeeperNotesService {
 	public NoteData saveNote(Long keeperId, Long animalId, NoteData noteData) {
 		Keeper keeper = findKeeperById(keeperId);
 		Animal animal = findAnimalById(animalId);
+		LocalDateTime currTime = LocalDateTime.now();
 
 		Note note = findOrCreateNote(noteData.getNoteId());
 
 		note.setAnimal(animal);
 		note.setKeeper(keeper);
-		note.setNoteDate(noteData.getNoteDate());
 		note.setNoteText(noteData.getNoteText());
+		note.setUpdatedAt(currTime);
 
 		Note dbNote = noteDao.save(note);
 		return new NoteData(dbNote);

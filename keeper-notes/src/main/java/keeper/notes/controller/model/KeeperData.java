@@ -30,7 +30,7 @@ public class KeeperData {
 		}
 		
 		for(Animal animal: keeper.getAnimals()) {
-			animals.add("ID - " + animal.getAnimalId().toString() + ": " + animal.getCommonName() + ", " + animal.getLocation());
+			animals.add(animal.getAnimalName() + ": " + animal.getCommonName() + ", " + animal.getLocation());
 		}
 	}
 }

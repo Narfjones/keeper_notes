@@ -7,7 +7,7 @@ import { Link, NavLink } from "react-router-dom";
  */
 export default function Navigation() {
   return (
-    <Navbar bg="info" data-bs-theme="dark" collapseOnSelect expand="md">
+    <Navbar bg="dark" data-bs-theme="dark" collapseOnSelect expand="md">
       <Container>
         <Navbar.Brand as={Link} to="/">
           Keeper Notes

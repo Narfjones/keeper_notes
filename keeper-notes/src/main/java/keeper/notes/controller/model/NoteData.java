@@ -1,5 +1,7 @@
 package keeper.notes.controller.model;
 
+import java.time.LocalDateTime;
+
 import keeper.notes.entity.Note;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,15 +10,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class NoteData {
 	private Long noteId;
-	private String noteDate;
+	private LocalDateTime createdAt;
 	private String noteText;
+	private LocalDateTime updatedAt;
 	private Long keeperId;
 	private Long animalId;
 	
 	public NoteData(Note note) {
 		noteId = note.getNoteId();
-		noteDate = note.getNoteDate();
+		createdAt = note.getCreatedAt();
 		noteText = note.getNoteText();
+		updatedAt = note.getUpdatedAt();
 		keeperId = note.getKeeper().getKeeperId();
 		animalId = note.getAnimal().getAnimalId();	
 		

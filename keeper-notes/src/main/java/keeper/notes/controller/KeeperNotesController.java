@@ -68,7 +68,7 @@ public class KeeperNotesController {
 	@DeleteMapping("/keeper/{keeperId}")
 	@ResponseStatus(code = HttpStatus.OK)
 	public Map<String, String> deleteKeeperById(@PathVariable Long keeperId){
-		log.info("Removing keeper with ID+ {}", keeperId);
+		log.info("Removing keeper with ID= {}", keeperId);
 		keeperNotesService.deleteKeeperById(keeperId);
 		return Map.of("message", "Successfully removed keeper with ID=" + keeperId);
 	}
@@ -84,7 +84,7 @@ public class KeeperNotesController {
 	@PutMapping("/remove/keeper{keeperId}/animal{animalId}")
 	@ResponseStatus(code = HttpStatus.OK)
 	public KeeperData removeAnimalFromKeeper(@PathVariable Long keeperId,@PathVariable Long animalId) {
-		log.info("Assigning animal with ID= {} to keeper with ID= {}", animalId, keeperId);
+		log.info("Discharging animal with ID= {} from keeper with ID= {}", animalId, keeperId);
 		return keeperNotesService.removeAnimalFromKeeper(keeperId, animalId);
 	}
 	

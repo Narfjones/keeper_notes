@@ -1,0 +1,14 @@
+spring:
+   datasource:
+      username: keeper_notes
+      password: keeper_notes
+      url: jdbc:mysql://localhost:3306/keeper_notes
+   
+   jpa:
+      hibernate:
+         ddl-auto: update
+      show-sql: true
+
+   sql:
+      init:
+         mode: always
