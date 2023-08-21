@@ -9,10 +9,14 @@ import {
   Button,
 } from "react-bootstrap";
 
-export default function Animals() {
-  const URL = "http://localhost:8080/keeper_notes";
-
-  const [animals, setAnimals] = React.useState([]);
+export default function Animals({
+  animals,
+  addNewAnimal,
+  deleteAnimal,
+  showError,
+  setShowError,
+  errorMessage,
+}) {
   const [show, setShow] = React.useState(false);
   const [newAnimal, setNewAnimal] = React.useState({
     species: "",
@@ -20,33 +24,6 @@ export default function Animals() {
     animalName: "",
     location: "",
   });
-
-  const fetchAllAnimals = async () => {
-    const res = await fetch(`${URL}/animal`);
-    const data = await res.json();
-    setAnimals(data);
-  };
-
-  React.useEffect(() => {
-    fetchAllAnimals();
-  }, []);
-
-  const addNewAnimal = async (newAnimal) => {
-    const response = await fetch(`${URL}/animal`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newAnimal),
-    });
-    const newAnimalWithId = await response.json();
-    setAnimals([...animals, newAnimalWithId]);
-  };
-
-  const deleteAnimal = async (idToDelete) => {
-    await fetch(`${URL}/animal/${idToDelete}`, {
-      method: "DELETE",
-    });
-    setAnimals(animals.filter((animal) => animal.animalId !== idToDelete));
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -60,7 +37,7 @@ export default function Animals() {
 
   const handleSubmit = (e) => {
     e.preventDefault;
-    console.log(newAnimal);
+    //console.log(newAnimal);
 
     if (Object.values(newAnimal).includes("")) {
       setShow(true);
@@ -88,6 +65,14 @@ export default function Animals() {
           dismissible
         >
           You must enter information into all fields to continue
+        </Alert>
+        <Alert
+          show={showError}
+          variant="danger"
+          onClose={() => setShowError(false)}
+          dismissible
+        >
+          {errorMessage}
         </Alert>
         <Form>
           <Container>
