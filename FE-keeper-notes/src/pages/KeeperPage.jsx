@@ -8,7 +8,7 @@ import {
   Col,
   Container,
 } from "react-bootstrap";
-import KeeperTable from "../Components/KeeperTable";
+import Keeper from "../Components/Keeper";
 
 export default function Keepers({
   keepers,
@@ -190,7 +190,7 @@ export default function Keepers({
           </thead>
           <tbody>
             {keepers.map((keeper) => (
-              <KeeperTable
+              <Keeper
                 key={keeper.keeperId}
                 keeper={keeper}
                 deleteKeeper={deleteKeeper}

@@ -1,6 +1,9 @@
 package keeper.notes.entity;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -20,9 +23,13 @@ public class Note {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long noteId;
-	private LocalDateTime createdAt;
+	
+	@CreationTimestamp
+	private Timestamp createdAt;
 	private String noteText;
-	private LocalDateTime updatedAt;
+	
+	@UpdateTimestamp
+	private Timestamp updatedAt;
 	
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude

@@ -210,14 +210,14 @@ public class KeeperNotesService {
 	public NoteData saveNote(Long keeperId, Long animalId, NoteData noteData) {
 		Keeper keeper = findKeeperById(keeperId);
 		Animal animal = findAnimalById(animalId);
-		LocalDateTime currTime = LocalDateTime.now();
+		//LocalDateTime currTime = LocalDateTime.now();
 
 		Note note = findOrCreateNote(noteData.getNoteId());
 
 		note.setAnimal(animal);
 		note.setKeeper(keeper);
 		note.setNoteText(noteData.getNoteText());
-		note.setUpdatedAt(currTime);
+		//note.setUpdatedAt(currTime);
 
 		Note dbNote = noteDao.save(note);
 		return new NoteData(dbNote);

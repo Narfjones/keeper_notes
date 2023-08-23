@@ -8,22 +8,27 @@ import {
   Table,
   Button,
 } from "react-bootstrap";
+import Animal from "../Components/Animal";
 
 export default function Animals({
   animals,
   addNewAnimal,
   deleteAnimal,
+  updateAnimal,
   showError,
   setShowError,
   errorMessage,
 }) {
-  const [show, setShow] = React.useState(false);
+  const [showFormAlert, setShowFormAlert] = React.useState(false);
   const [newAnimal, setNewAnimal] = React.useState({
     species: "",
     commonName: "",
     animalName: "",
     location: "",
   });
+  const [selectedAnimal, setSelectedAnimal] = React.useState({});
+  const [showUpdate, setShowUpdate] = React.useState(false);
+  const [updatedAnimal, setUpdatedAnimal] = React.useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,15 +58,30 @@ export default function Animals({
     });
   };
 
+  const handleUpdateChange = (e) => {
+    const { name, value } = e.target;
+    setUpdatedAnimal((prevData) => {
+      return {
+        ...prevData,
+        [name]: value,
+      };
+    });
+  };
+
+  const handleUpdateSubmit = (e) => {
+    e.preventDefault;
+    updateAnimal(updatedAnimal);
+    setShowUpdate(false);
+  };
   return (
     <div>
       <h1 className="text-center">Animals</h1>
       <div className="addAnimalForm">
         <h3>Accession an animal</h3>
         <Alert
-          show={show}
+          show={showFormAlert}
           variant="danger"
-          onClose={() => setShow(false)}
+          onClose={() => setShowFormAlert(false)}
           dismissible
         >
           You must enter information into all fields to continue
@@ -150,35 +170,107 @@ export default function Animals({
               <th>Name</th>
               <th>Location</th>
               <th>Assigned To</th>
+              <th>Options</th>
             </tr>
           </thead>
           <tbody>
             {animals.map((animal) => (
-              <tr key={animal.animalId}>
-                <td className="fst-italic">{animal.species}</td>
-                <td>{animal.commonName}</td>
-                <td>{animal.animalName}</td>
-                <td>{animal.location}</td>
-                <td>
-                  <ul>
-                    {animal.keepers.map((keeper, index) => (
-                      <li key={index}>{keeper}</li>
-                    ))}
-                  </ul>
-                </td>
-                <td>
-                  <Button
-                    variant="danger"
-                    onClick={() => deleteAnimal(animal.animalId)}
-                  >
-                    Delete
-                  </Button>
-                </td>
-              </tr>
+              <Animal
+                key={animal.animalId}
+                animal={animal}
+                deleteAnimal={deleteAnimal}
+                setUpdatedAnimal={setUpdatedAnimal}
+                setShowUpdate={setShowUpdate}
+              />
             ))}
           </tbody>
         </Table>
       </div>
+      {showUpdate && (
+        <div
+          id="updateSection"
+          className="text-white text center p-5 container"
+        >
+          <h4 className="row">
+            Update information for{" "}
+            {updatedAnimal.commonName + ": " + updatedAnimal.animalName}
+          </h4>
+          <Form>
+            <Container>
+              <Row>
+                <Col>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Species</Form.Label>
+                    <Form.Control
+                      placeholder="Species"
+                      type="text"
+                      name="species"
+                      onChange={handleUpdateChange}
+                      value={updatedAnimal.species}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Common Name</Form.Label>
+                    <Form.Control
+                      placeholder="Common Name"
+                      type="text"
+                      name="commonName"
+                      onChange={handleUpdateChange}
+                      value={updatedAnimal.commonName}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control
+                      placeholder="Name"
+                      type="text"
+                      name="animalName"
+                      onChange={handleUpdateChange}
+                      value={updatedAnimal.animalName}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Location</Form.Label>
+                    <Form.Control
+                      placeholder="Location"
+                      type="text"
+                      name="location"
+                      onChange={handleUpdateChange}
+                      value={updatedAnimal.location}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+            </Container>
+          </Form>
+          <div className="row justify-content-center">
+            <Button
+              variant="light"
+              className="col-2 m-5"
+              onClick={() => setShowUpdate(false)}
+            >
+              Close
+            </Button>
+            <Button
+              variant="danger"
+              className="col-2 m-5"
+              onClick={handleUpdateSubmit}
+            >
+              Update
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

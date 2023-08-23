@@ -2,7 +2,7 @@ import React from "react";
 
 import { Button, Modal } from "react-bootstrap";
 
-export default function KeeperTable({
+export default function Keeper({
   keeper,
   deleteKeeper,
   setShowUpdate,

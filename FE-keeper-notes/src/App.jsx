@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-import Animals from "./pages/Animals";
-import Keepers from "./pages/KeeperPage";
+import AnimalPage from "./pages/AnimalPage";
+import KeeperPage from "./pages/KeeperPage";
 import Notes from "./pages/Notes";
 import Home from "./pages/Home";
 import Layout from "./Components/Layout";
@@ -53,6 +53,7 @@ function App() {
         method: "DELETE",
       });
       setKeepers(keepers.filter((keeper) => keeper.keeperId !== idToDelete));
+      fetchAllAnimals();
     } catch (error) {
       console.log(error);
       setErrorMessage(error.message);
@@ -145,6 +146,26 @@ function App() {
         method: "DELETE",
       });
       setAnimals(animals.filter((animal) => animal.animalId !== idToDelete));
+      fetchAllKeepers();
+    } catch (error) {
+      console.log(error);
+      setErrorMessage(error.message);
+      setShowError(true);
+    }
+  };
+
+  const updateAnimal = async (updatedAnimal) => {
+    try {
+      const response = await fetch(`${URL}/animal/${updatedAnimal.animalId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedAnimal),
+      });
+      const updated = await response.json();
+      const updatedAnimalArray = animals.map((animal) => {
+        return animal.animalId === updated.animalId ? updated : animal;
+      });
+      setAnimals(updatedAnimalArray);
     } catch (error) {
       console.log(error);
       setErrorMessage(error.message);
@@ -160,7 +181,7 @@ function App() {
           <Route
             path="/Keepers"
             element={
-              <Keepers
+              <KeeperPage
                 keepers={keepers}
                 animals={animals}
                 assignAnimal={assignAnimal}
@@ -177,13 +198,14 @@ function App() {
           <Route
             path="/Animals"
             element={
-              <Animals
+              <AnimalPage
                 animals={animals}
                 addNewAnimal={addNewAnimal}
                 deleteAnimal={deleteAnimal}
                 showError={showError}
                 setShowError={setShowError}
                 errorMessage={errorMessage}
+                updateAnimal={updateAnimal}
               />
             }
           />

@@ -1,6 +1,6 @@
 package keeper.notes.controller.model;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 import keeper.notes.entity.Note;
 import lombok.Data;
@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class NoteData {
 	private Long noteId;
-	private LocalDateTime createdAt;
+	private Timestamp createdAt;
 	private String noteText;
-	private LocalDateTime updatedAt;
+	private Timestamp updatedAt;
 	private Long keeperId;
 	private Long animalId;
 	

@@ -29,7 +29,7 @@ public class Keeper {
 	
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
-	@OneToMany(mappedBy = "keeper", cascade = CascadeType.PERSIST, orphanRemoval = false)//Should this be ALL? Don't want to delete a note if a keeper is removed.
+	@OneToMany(mappedBy = "keeper", cascade = CascadeType.PERSIST)//Should this be ALL? Don't want to delete a note if a keeper is removed.
 	private Set<Note> notes = new HashSet<>();
 	
 	@EqualsAndHashCode.Exclude
