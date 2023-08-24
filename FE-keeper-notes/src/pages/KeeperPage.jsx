@@ -102,8 +102,8 @@ export default function Keepers({
 
   return (
     <div className="mx-3">
-      <h1 className="text-center m-3">Keepers</h1>
-      <div className="addKeeperForm p-3 mx-3">
+      <h1 className="text-center m-3 text-white">Keepers</h1>
+      <div className="addKeeperForm bg-light p-3 mx-3">
         <h3>Register a Keeper</h3>
         <Alert
           show={showFormAlert}
@@ -150,7 +150,7 @@ export default function Keepers({
               </Col>
             </Row>
             <Row>
-              <Col xs={4}>
+              <Col xs={6}>
                 <Form.Group className="mb-3">
                   <Form.Label>Radio Number (must be a whole number)</Form.Label>
                   <Form.Control
@@ -177,7 +177,7 @@ export default function Keepers({
           </Container>
         </Form>
       </div>
-      <div className="keeperTable m-3 p-3 table-responsive">
+      <div className="keeperTable bg-light m-3 p-3 table-responsive">
         <h3>Registered Keepers</h3>
         <Table className="text-center container table-hover ">
           <thead>

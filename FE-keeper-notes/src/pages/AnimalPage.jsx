@@ -74,9 +74,9 @@ export default function Animals({
     setShowUpdate(false);
   };
   return (
-    <div>
-      <h1 className="text-center">Animals</h1>
-      <div className="addAnimalForm">
+    <div className="mx-3">
+      <h1 className="text-center m-3 text-white">Animals</h1>
+      <div className="addAnimalForm p-3 mx-3 bg-light">
         <h3>Accession an animal</h3>
         <Alert
           show={showFormAlert}
@@ -97,7 +97,7 @@ export default function Animals({
         <Form>
           <Container>
             <Row>
-              <Col>
+              <Col xs>
                 <Form.Group className="mb-3">
                   <Form.Label>Species</Form.Label>
                   <Form.Control
@@ -123,7 +123,7 @@ export default function Animals({
               </Col>
             </Row>
             <Row>
-              <Col>
+              <Col xs>
                 <Form.Group className="mb-3">
                   <Form.Label>Name</Form.Label>
                   <Form.Control
@@ -135,9 +135,7 @@ export default function Animals({
                   />
                 </Form.Group>
               </Col>
-            </Row>
-            <Row>
-              <Col>
+              <Col xs>
                 <Form.Group className="mb-3">
                   <Form.Label>Location</Form.Label>
                   <Form.Control
@@ -151,7 +149,7 @@ export default function Animals({
               </Col>
             </Row>
             <Row>
-              <Col md={{ span: 4, offset: 5 }}>
+              <Col xs={2}>
                 <Button variant="success" onClick={handleSubmit}>
                   Submit
                 </Button>
@@ -160,17 +158,17 @@ export default function Animals({
           </Container>
         </Form>
       </div>
-      <div className="animalTable table-responsive">
+      <div className="animalTable bg-light m-3 p-3 table-responsive">
         <h3>Current Animals</h3>
-        <Table className="text-center">
+        <Table className="text-center container table-hover">
           <thead>
-            <tr>
-              <th>Species</th>
-              <th>Common Name</th>
-              <th>Name</th>
-              <th>Location</th>
-              <th>Assigned To</th>
-              <th>Options</th>
+            <tr className="row">
+              <th className="col-2">Species</th>
+              <th className="col-2">Common Name</th>
+              <th className="col-1">Name</th>
+              <th className="col-2">Location</th>
+              <th className="col-2">Assigned To</th>
+              <th className="col-3">Options</th>
             </tr>
           </thead>
           <tbody>

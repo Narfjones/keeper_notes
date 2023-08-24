@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import AnimalPage from "./pages/AnimalPage";
 import KeeperPage from "./pages/KeeperPage";
-import Notes from "./pages/Notes";
+import NotePage from "./pages/NotePage";
 import Home from "./pages/Home";
 import Layout from "./Components/Layout";
 
@@ -12,6 +12,7 @@ function App() {
   const [animals, setAnimals] = React.useState([]);
   const [showError, setShowError] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
+  const [notes, setNotes] = React.useState([]);
 
   const URL = "http://localhost:8080/keeper_notes";
 
@@ -173,6 +174,42 @@ function App() {
     }
   };
 
+  const addNote = async (newNote) => {
+    const textObject = { noteText: newNote.noteText };
+    try {
+      const response = await fetch(
+        `${URL}/note/keeper${newNote.keeperId}/animal${newNote.animalId}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(textObject),
+        }
+      );
+      const data = await response.json();
+      setNotes([...notes, data]);
+    } catch (error) {
+      console.log(error);
+      setErrorMessage(error.message);
+      setShowError(true);
+    }
+  };
+
+  const fetchAllNotes = async () => {
+    try {
+      const res = await fetch(URL);
+      const data = await res.json();
+      setNotes(data);
+    } catch (error) {
+      console.log(error);
+      setErrorMessage(error.message);
+      setShowError(true);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchAllNotes();
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -209,7 +246,20 @@ function App() {
               />
             }
           />
-          <Route path="/Notes" element={<Notes />} />
+          <Route
+            path="/Notes"
+            element={
+              <NotePage
+                notes={notes}
+                animals={animals}
+                keepers={keepers}
+                addNote={addNote}
+                showError={showError}
+                setShowError={setShowError}
+                errorMessage={errorMessage}
+              />
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>

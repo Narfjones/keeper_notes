@@ -1,5 +1,0 @@
-package keeper.notes.controller.model;
-
-public class NoteData {
-
-}

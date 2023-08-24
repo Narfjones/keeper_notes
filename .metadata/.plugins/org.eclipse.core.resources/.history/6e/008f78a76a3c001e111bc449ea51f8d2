@@ -1,7 +1,0 @@
-package keeper.notes.dao;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface AnimalDao extends JpaRepository<Animal, Long> {
-
-}

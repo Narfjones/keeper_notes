@@ -18,8 +18,17 @@ li {
 }
 
 .addKeeperForm,
-.keeperTable {
+.keeperTable,
+.addAnimalForm,
+.animalTable,
+.addNoteForm {
   border: 1px solid black;
   border-radius: 5px;
   box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
+  color: black;
+}
+
+#root {
+  height: 100vh;
+  background-color: #343a40;
 }
