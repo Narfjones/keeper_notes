@@ -1,6 +1,7 @@
 package keeper.notes.controller.model;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 import keeper.notes.entity.Note;
 import lombok.Data;
@@ -21,7 +22,7 @@ public class NoteData {
 		createdAt = note.getCreatedAt();
 		noteText = note.getNoteText();
 		updatedAt = note.getUpdatedAt();
-		keeperId = note.getKeeper().getKeeperId();
+		keeperId = (Objects.isNull(note.getKeeper()) ? null : note.getKeeper().getKeeperId());
 		animalId = note.getAnimal().getAnimalId();	
 		
 	}

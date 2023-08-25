@@ -160,15 +160,15 @@ export default function Animals({
       </div>
       <div className="animalTable bg-light m-3 p-3 table-responsive">
         <h3>Current Animals</h3>
-        <Table className="text-center container table-hover">
+        <Table className="text-center table-hover">
           <thead>
-            <tr className="row">
-              <th className="col-2">Species</th>
-              <th className="col-2">Common Name</th>
-              <th className="col-1">Name</th>
-              <th className="col-2">Location</th>
-              <th className="col-2">Assigned To</th>
-              <th className="col-3">Options</th>
+            <tr>
+              <th>Species</th>
+              <th>Common Name</th>
+              <th>Name</th>
+              <th>Location</th>
+              <th>Assigned To</th>
+              <th>Options</th>
             </tr>
           </thead>
           <tbody>

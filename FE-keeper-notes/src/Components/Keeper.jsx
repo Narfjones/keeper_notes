@@ -12,10 +12,10 @@ export default function KeeperTable({
   setUpdatedKeeper,
 }) {
   return (
-    <tr className="row" key={keeper.keeperId}>
-      <td className="col-3">{keeper.firstName + " " + keeper.lastName}</td>
-      <td className="col-2">{keeper.radioNumber}</td>
-      <td className="col-4">
+    <tr key={keeper.keeperId}>
+      <td>{keeper.firstName + " " + keeper.lastName}</td>
+      <td>{keeper.radioNumber}</td>
+      <td>
         <ul>
           {keeper.animals.map((animal, index) => (
             <li key={index}>{animal}</li>
@@ -26,7 +26,7 @@ export default function KeeperTable({
         <div>
           <Button
             className="btn-sm mx-1 my-1"
-            variant="primary"
+            variant="dark"
             onClick={() => {
               setShowAssign(true);
               setSelectedKeeper(keeper);
@@ -36,7 +36,7 @@ export default function KeeperTable({
           </Button>
           <Button
             className="btn-sm mx-1 my-1"
-            variant="primary"
+            variant="dark"
             onClick={() => {
               setShowDischarge(true);
               setSelectedKeeper(keeper);
@@ -46,7 +46,7 @@ export default function KeeperTable({
           </Button>
           <Button
             className="btn-sm mx-1 my-1"
-            variant="primary"
+            variant="dark"
             onClick={() => {
               setShowUpdate(true);
               setUpdatedKeeper(keeper);
@@ -56,7 +56,7 @@ export default function KeeperTable({
           </Button>
           <Button
             className="btn-sm mx-1 my-1"
-            variant="primary"
+            variant="dark"
             onClick={() => deleteKeeper(keeper.keeperId)}
           >
             Remove

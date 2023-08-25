@@ -124,7 +124,7 @@ export default function Keepers({
         <Form>
           <Container>
             <Row>
-              <Col xs>
+              <Col sm>
                 <Form.Group className="mb-3">
                   <Form.Label>First Name</Form.Label>
                   <Form.Control
@@ -136,7 +136,7 @@ export default function Keepers({
                   />
                 </Form.Group>
               </Col>
-              <Col xs>
+              <Col sm>
                 <Form.Group className="mb-3">
                   <Form.Label>Last Name</Form.Label>
                   <Form.Control
@@ -150,11 +150,11 @@ export default function Keepers({
               </Col>
             </Row>
             <Row>
-              <Col xs={6}>
+              <Col sm={6}>
                 <Form.Group className="mb-3">
                   <Form.Label>Radio Number (must be a whole number)</Form.Label>
                   <Form.Control
-                    placeholder="Enter a whole number without a decimal"
+                    placeholder="Enter a whole number"
                     type="number"
                     name="radioNumber"
                     onChange={handleChange}
@@ -164,7 +164,7 @@ export default function Keepers({
               </Col>
             </Row>
             <Row>
-              <Col xs={2}>
+              <Col sm={2}>
                 <Button
                   variant="info"
                   className="ms-auto"
@@ -179,13 +179,13 @@ export default function Keepers({
       </div>
       <div className="keeperTable bg-light m-3 p-3 table-responsive">
         <h3>Registered Keepers</h3>
-        <Table className="text-center container table-hover ">
+        <Table className="text-center  table-hover ">
           <thead>
-            <tr className="row">
-              <th className="col-3">Keeper Name</th>
-              <th className="col-2">Radio Number</th>
-              <th className="col-4">Assigned animals</th>
-              <th className="col-3">Options</th>
+            <tr>
+              <th>Keeper Name</th>
+              <th>Radio Number</th>
+              <th>Assigned animals</th>
+              <th>Options</th>
             </tr>
           </thead>
           <tbody>
@@ -231,17 +231,17 @@ export default function Keepers({
               </Form.Select>
             </Form.Group>
           </Form>
-          <div className="row justify-content-center">
+          <div className="row justify-content-around mt-3">
             <Button
               variant="light"
-              className="col-2 m-5"
+              className="col-3"
               onClick={() => setShowAssign(false)}
             >
               Close
             </Button>
             <Button
               variant="success"
-              className="col-2 m-5"
+              className="col-3"
               onClick={handleAssignSubmit}
             >
               Assign
@@ -276,17 +276,17 @@ export default function Keepers({
               </Form.Select>
             </Form.Group>
           </Form>
-          <div className="row justify-content-center">
+          <div className="row justify-content-around mt-3">
             <Button
               variant="light"
-              className="col-2 m-5"
+              className="col-3"
               onClick={() => setShowDischarge(false)}
             >
               Close
             </Button>
             <Button
               variant="danger"
-              className="col-2 m-5"
+              className="col-3"
               onClick={handleDischargeSubmit}
             >
               Discharge
@@ -331,7 +331,7 @@ export default function Keepers({
                 </Col>
               </Row>
               <Row>
-                <Col xs={4}>
+                <Col xs={6}>
                   <Form.Group className="mb-3">
                     <Form.Label>
                       Radio Number (must be a whole number)
@@ -347,17 +347,17 @@ export default function Keepers({
               </Row>
             </Container>
           </Form>
-          <div className="row justify-content-center">
+          <div className="row justify-content-around mt-3">
             <Button
               variant="light"
-              className="col-2 m-5"
+              className="col-3"
               onClick={() => setShowUpdate(false)}
             >
               Close
             </Button>
             <Button
               variant="danger"
-              className="col-2 m-5"
+              className="col-3"
               onClick={handleUpdateSubmit}
             >
               Update

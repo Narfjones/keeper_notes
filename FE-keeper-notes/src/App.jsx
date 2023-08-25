@@ -55,6 +55,7 @@ function App() {
       });
       setKeepers(keepers.filter((keeper) => keeper.keeperId !== idToDelete));
       fetchAllAnimals();
+      fetchAllNotes();
     } catch (error) {
       console.log(error);
       setErrorMessage(error.message);
@@ -83,13 +84,23 @@ function App() {
 
   const assignAnimal = async (keeperId, animalId) => {
     try {
-      await fetch(`${URL}/assign/keeper${keeperId}/animal${animalId}`, {
-        method: "PUT",
-      });
-      fetchAllKeepers();
-      fetchAllAnimals();
+      const res = await fetch(
+        `${URL}/assign/keeper${keeperId}/animal${animalId}`,
+        {
+          method: "PUT",
+        }
+      );
+      if (res.ok) {
+        fetchAllKeepers();
+        fetchAllAnimals();
+      } else {
+        const message = await res.json();
+        console.log(message);
+        setErrorMessage(message.message);
+        setShowError(true);
+      }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       setErrorMessage(error.message);
       setShowError(true);
     }
@@ -97,13 +108,23 @@ function App() {
 
   const dischargeAnimal = async (keeperId, animalId) => {
     try {
-      await fetch(`${URL}/remove/keeper${keeperId}/animal${animalId}`, {
-        method: "PUT",
-      });
-      fetchAllKeepers();
-      fetchAllAnimals();
+      const res = await fetch(
+        `${URL}/remove/keeper${keeperId}/animal${animalId}`,
+        {
+          method: "PUT",
+        }
+      );
+      if (res.ok) {
+        fetchAllKeepers();
+        fetchAllAnimals();
+      } else {
+        const message = await res.json();
+        console.log(message);
+        setErrorMessage(message.message);
+        setShowError(true);
+      }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       setErrorMessage(error.message);
       setShowError(true);
     }
@@ -148,6 +169,7 @@ function App() {
       });
       setAnimals(animals.filter((animal) => animal.animalId !== idToDelete));
       fetchAllKeepers();
+      fetchAllNotes();
     } catch (error) {
       console.log(error);
       setErrorMessage(error.message);
@@ -206,6 +228,39 @@ function App() {
     }
   };
 
+  const updateNote = async (updatedNote) => {
+    const textObject = {
+      noteText: updatedNote.noteText,
+    };
+    try {
+      const res = await fetch(
+        `${URL}/note/keeper${updatedNote.keeperId}/animal${updatedNote.animalId}/note${updatedNote.noteId}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(textObject),
+        }
+      );
+      if (res.ok) {
+        fetchAllNotes();
+      } else {
+        const message = await res.json();
+        console.log(message);
+        setErrorMessage(message.message);
+        setShowError(true);
+      }
+      //const updated = await res.json();
+      // const updatedNotesArray = notes.map((note) => {
+      //   return note.noteId === updated.noteId ? updated : note;
+      // });
+      // setNotes(updatedNotesArray);
+    } catch (error) {
+      console.log(error);
+      setErrorMessage(error.message);
+      setShowError(true);
+    }
+  };
+
   React.useEffect(() => {
     fetchAllNotes();
   }, []);
@@ -254,6 +309,7 @@ function App() {
                 animals={animals}
                 keepers={keepers}
                 addNote={addNote}
+                updateNote={updateNote}
                 showError={showError}
                 setShowError={setShowError}
                 errorMessage={errorMessage}

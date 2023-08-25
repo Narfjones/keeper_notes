@@ -1,23 +1,33 @@
 import React from "react";
-import { Alert, Col, Container, Form, Row, Button } from "react-bootstrap";
+import {
+  Alert,
+  Col,
+  Container,
+  Form,
+  Row,
+  Button,
+  Table,
+} from "react-bootstrap";
+import Note from "../Components/Note";
 
 export default function NotePage({
   notes,
   animals,
   keepers,
   addNote,
+  updateNote,
   showError,
   setShowError,
   errorMessage,
 }) {
   const [showFormAlert, setShowFormAlert] = React.useState(false);
-  // const [keeperId, setKeeperId] = React.useState("");
-  // const [animalId, setAnimalId] = React.useState("");
   const [newNote, setNewNote] = React.useState({
     noteText: "",
     keeperId: "",
     animalId: "",
   });
+  const [showUpdate, setShowUpdate] = React.useState(false);
+  const [updatedNote, setUpdatedNote] = React.useState();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,14 +44,49 @@ export default function NotePage({
     //console.log(newKeeper);
 
     if (Object.values(newNote).includes("")) {
-      setShow(true);
+      setShowFormAlert(true);
       return;
     }
 
     addNote(newNote);
     setNewNote({
       noteText: "",
+      keeperId: "",
+      animalId: "",
     });
+  };
+  const findAuthor = (id, keeperArray) => {
+    const author = keeperArray.filter((keeper) => keeper.keeperId === id);
+    //console.log(author);
+    return author[0].firstName + " " + author[0].lastName;
+  };
+
+  const findSubject = (id, animalArray) => {
+    const subject = animalArray.filter((animal) => animal.animalId === id);
+    //console.log(subject);
+    return subject[0].animalName;
+  };
+
+  const handleUpdateChange = (e) => {
+    const { name, value } = e.target;
+    setUpdatedNote((prevData) => {
+      return {
+        ...prevData,
+        [name]: value,
+      };
+    });
+  };
+
+  const handleUpdateSubmit = (e) => {
+    e.preventDefault;
+
+    if (Object.values(updatedNote).includes("")) {
+      setShowUpdate(false);
+      setShowFormAlert(true);
+      return;
+    }
+    updateNote(updatedNote);
+    setShowUpdate(false);
   };
 
   return (
@@ -68,7 +113,7 @@ export default function NotePage({
         <Form>
           <Container>
             <Row>
-              <Col xs>
+              <Col sm>
                 <Form.Group className="mb-3">
                   <Form.Label>Animal</Form.Label>
                   <Form.Select
@@ -86,7 +131,7 @@ export default function NotePage({
                   </Form.Select>
                 </Form.Group>
               </Col>
-              <Col xs>
+              <Col sm>
                 <Form.Group className="mb-3">
                   <Form.Label>Keeper</Form.Label>
                   <Form.Select
@@ -106,7 +151,7 @@ export default function NotePage({
               </Col>
             </Row>
             <Row>
-              <Col xs={4}>
+              <Col sm>
                 <Form.Group className="mb-3">
                   <Form.Label>Note Text</Form.Label>
                   <Form.Control
@@ -134,6 +179,82 @@ export default function NotePage({
           </Container>
         </Form>
       </div>
+      <div className="noteTable bg-light m-3 p-3 table-responsive">
+        <h3>Notes</h3>
+        <Table className="text-center  table-hover ">
+          <thead>
+            <tr>
+              <th>Created</th>
+              <th>Note</th>
+              <th>Author</th>
+              <th>Subject</th>
+              <th>Last Updated</th>
+              <th>Options</th>
+            </tr>
+          </thead>
+          <tbody>
+            {notes.map((note) => (
+              <Note
+                key={note.noteId}
+                note={note}
+                keepers={keepers}
+                animals={animals}
+                updateNote={updateNote}
+                setShowUpdate={setShowUpdate}
+                findAuthor={findAuthor}
+                findSubject={findSubject}
+                setUpdatedNote={setUpdatedNote}
+              />
+            ))}
+          </tbody>
+        </Table>
+      </div>
+      {showUpdate && (
+        <div
+          id="updateSection"
+          className="text-white text center p-5 container"
+        >
+          <h4 className="row">
+            Update note by {findAuthor(updatedNote.keeperId, keepers)} about{" "}
+            {findSubject(updatedNote.animalId, animals)}
+          </h4>
+          <Form>
+            <Container>
+              <Row>
+                <Col sm>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Note Text</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      placeholder="Enter the note here"
+                      type="text"
+                      name="noteText"
+                      onChange={handleUpdateChange}
+                      value={updatedNote.noteText}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+            </Container>
+          </Form>
+          <div className="row justify-content-around mt-3">
+            <Button
+              variant="light"
+              className="col-3"
+              onClick={() => setShowUpdate(false)}
+            >
+              Close
+            </Button>
+            <Button
+              variant="danger"
+              className="col-3"
+              onClick={handleUpdateSubmit}
+            >
+              Update
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

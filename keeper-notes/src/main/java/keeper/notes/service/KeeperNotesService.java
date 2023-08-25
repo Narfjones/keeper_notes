@@ -1,6 +1,5 @@
 package keeper.notes.service;
 
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -178,12 +177,19 @@ public class KeeperNotesService {
 	public KeeperData assignAnimalToKeeper(Long keeperId, Long animalId) {
 		Keeper keeper = findKeeperById(keeperId);
 		Animal animal = findAnimalById(animalId);
-		keeper.getAnimals().add(animal);
-		animal.getKeepers().add(keeper);
-		Keeper dbKeeper = keeperDao.save(keeper);
-		animalDao.save(animal);
+		
+		if(keeper.getAnimals().contains(animal) || animal.getKeepers().contains(keeper)) {
+			throw new IllegalArgumentException(
+					"Animal with ID=" + animalId + " is already assigned to keeper with ID=" + keeperId);			
+		} else {
+			keeper.getAnimals().add(animal);
+			animal.getKeepers().add(keeper);
+			Keeper dbKeeper = keeperDao.save(keeper);
+			animalDao.save(animal);	
+			return new KeeperData(dbKeeper);
+		}
 
-		return new KeeperData(dbKeeper);
+		
 	}
 	
 	@Transactional(readOnly = false)
@@ -192,7 +198,7 @@ public class KeeperNotesService {
 		Animal animal = findAnimalById(animalId);
 
 		if (!keeper.getAnimals().contains(animal) || !animal.getKeepers().contains(keeper)) {
-			throw new NoSuchElementException(
+			throw new IllegalArgumentException(
 					"Animal with ID=" + animalId + " is not currently assigned to keeper with ID=" + keeperId);
 		} else {
 			keeper.getAnimals().remove(animal);
@@ -210,14 +216,12 @@ public class KeeperNotesService {
 	public NoteData saveNote(Long keeperId, Long animalId, NoteData noteData) {
 		Keeper keeper = findKeeperById(keeperId);
 		Animal animal = findAnimalById(animalId);
-		//LocalDateTime currTime = LocalDateTime.now();
 
 		Note note = findOrCreateNote(noteData.getNoteId());
 
 		note.setAnimal(animal);
 		note.setKeeper(keeper);
 		note.setNoteText(noteData.getNoteText());
-		//note.setUpdatedAt(currTime);
 
 		Note dbNote = noteDao.save(note);
 		return new NoteData(dbNote);

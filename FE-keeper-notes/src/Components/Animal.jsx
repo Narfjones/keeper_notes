@@ -8,12 +8,12 @@ export default function Animal({
   setShowUpdate,
 }) {
   return (
-    <tr className="row" key={animal.animalId}>
-      <td className="col-2 fst-italic">{animal.species}</td>
-      <td className="col-2">{animal.commonName}</td>
-      <td className="col-1">{animal.animalName}</td>
-      <td className="col-2">{animal.location}</td>
-      <td className="col-2">
+    <tr key={animal.animalId}>
+      <td className="fst-italic">{animal.species}</td>
+      <td>{animal.commonName}</td>
+      <td>{animal.animalName}</td>
+      <td>{animal.location}</td>
+      <td>
         <ul>
           {animal.keepers.map((keeper, index) => (
             <li key={index}>{keeper}</li>
@@ -22,7 +22,7 @@ export default function Animal({
       </td>
       <td className="col-3">
         <Button
-          className="btn-sm m-1"
+          className="btn-sm m-1 p-1"
           variant="info"
           onClick={() => {
             setShowUpdate(true);
@@ -32,7 +32,7 @@ export default function Animal({
           Update
         </Button>
         <Button
-          className="btn-sm m-1"
+          className="btn-sm m-1 p-1"
           variant="danger"
           onClick={() => deleteAnimal(animal.animalId)}
         >

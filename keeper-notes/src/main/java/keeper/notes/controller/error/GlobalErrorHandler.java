@@ -23,4 +23,13 @@ public class GlobalErrorHandler {
 			exceptionMap.put("message", ex.toString());
 			return exceptionMap;
 		}
+		
+		@ExceptionHandler(IllegalArgumentException.class)
+		@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+		public Map<String, String> handleIllegalArgumentException(IllegalArgumentException ex){
+			log.error("Exception: {}", ex.toString());
+			Map<String, String> exceptionMap = new HashMap<>();
+			exceptionMap.put("message", ex.toString());
+			return exceptionMap;
+		}
 }
