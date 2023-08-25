@@ -29,11 +29,11 @@ export default function NotePage({
   const [showUpdate, setShowUpdate] = React.useState(false);
   const [updatedNote, setUpdatedNote] = React.useState();
   const [selectedKeeperId, setSelectedKeeperId] = React.useState("");
-  const [selectedAnimal, setSelectedAnimal] = React.useState("");
+  const [selectedAnimalId, setSelectedAnimalId] = React.useState("");
   const [showKeeperNotes, setShowKeeperNotes] = React.useState(false);
   const [showAnimalNotes, setShowAnimalNotes] = React.useState(false);
 
-  console.log("keepers", keepers);
+  //console.log("keepers", keepers);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewNote((prevData) => {
@@ -61,8 +61,8 @@ export default function NotePage({
     });
   };
   const findAuthor = (id, keeperArray) => {
-    console.log({ id });
-    console.log(keeperArray);
+    //console.log({ id });
+    //console.log(keeperArray);
     const author = keeperArray.filter((keeper) => keeper.keeperId === id);
     //console.log(author);
     return author[0].firstName + " " + author[0].lastName;
@@ -96,19 +96,15 @@ export default function NotePage({
     setShowUpdate(false);
   };
 
-  const handleTableChoiceChange = (e) => {
+  const handleTableChoice = (e) => {
     const { name, value } = e.target;
     console.log(value);
-    name === "keeperId" ? setSelectedKeeperId(value) : setSelectedAnimal(value);
-    console.log(selectedKeeperId) + " in handle change";
+    name === "keeperId"
+      ? setSelectedKeeperId(value)
+      : setSelectedAnimalId(value);
+    //console.log(selectedKeeperId) + " in handle change";
   };
 
-  const handleKeeperChoiceSubmit = (e) => {
-    console.log(selectedKeeperId + " in handle sumbit");
-    e.preventDefault;
-    setShowKeeperNotes(true);
-    //setSelectedKeeperId("");
-  };
   return (
     <div className="mx-3">
       <h1 className="text-center m-3 text-white">Notes</h1>
@@ -200,26 +196,37 @@ export default function NotePage({
         </Form>
       </div>
       <div className="noteTable bg-light m-3 p-3 table-responsive">
-        {!showAnimalNotes && !showKeeperNotes && <h3>All Current Notes</h3>}
-        {showAnimalNotes && <h3>All notes about </h3>}
-        {selectedKeeperId != "" && (
+        {selectedKeeperId === "" && selectedAnimalId === "" && (
+          <h3>All Current Notes</h3>
+        )}
+        {selectedAnimalId != "" && selectedKeeperId === "" && (
+          <h3>
+            All notes about {findSubject(parseInt(selectedAnimalId), animals)}{" "}
+          </h3>
+        )}
+        {selectedKeeperId != "" && selectedAnimalId === "" && (
           <h3>
             All notes from {findAuthor(parseInt(selectedKeeperId), keepers)}
+          </h3>
+        )}
+        {selectedKeeperId != "" && selectedAnimalId != "" && (
+          <h3>
+            All notes from {findAuthor(parseInt(selectedKeeperId), keepers)}{" "}
+            about {findSubject(parseInt(selectedAnimalId), animals)}
           </h3>
         )}
         <Container>
           <Row>
             <Col>
-              <p>View all notes by a keeper</p>
               <Form>
                 <Form.Group className="mb-3">
-                  <Form.Label>Keepers</Form.Label>
+                  <Form.Label>Filter by Keeper</Form.Label>
                   <Form.Select
                     name="keeperId"
-                    onChange={handleTableChoiceChange}
+                    onChange={handleTableChoice}
                     value={selectedKeeperId}
                   >
-                    <option value="">Select</option>
+                    <option value="">All</option>
                     {keepers.map((keeper) => (
                       <option key={keeper.keeperId} value={keeper.keeperId}>
                         {keeper.firstName + " " + keeper.lastName}
@@ -227,23 +234,19 @@ export default function NotePage({
                     ))}
                   </Form.Select>
                 </Form.Group>
-                <Button variant="dark" onClick={handleKeeperChoiceSubmit}>
-                  Select
-                </Button>
               </Form>
             </Col>
             <Col>
-              <p>View all notes about an animal</p>
               <Form>
                 <Form.Group className="mb-3">
-                  <Form.Label>Animals</Form.Label>
+                  <Form.Label>Filter by Animal</Form.Label>
                   <Form.Select
                     id="animalChoiceInput"
                     name="animalId"
-                    onChange={handleTableChoiceChange}
-                    value={selectedAnimal}
+                    onChange={handleTableChoice}
+                    value={selectedAnimalId}
                   >
-                    <option value="">Select</option>
+                    <option value="">All</option>
                     {animals.map((animal) => (
                       <option key={animal.animalId} value={animal.animalId}>
                         {animal.animalName}
@@ -251,15 +254,6 @@ export default function NotePage({
                     ))}
                   </Form.Select>
                 </Form.Group>
-                <Button
-                  variant="dark"
-                  onClick={(e) => {
-                    e.preventDefault;
-                    setShowAnimalNotes(true);
-                  }}
-                >
-                  Select
-                </Button>
               </Form>
             </Col>
           </Row>
@@ -276,12 +270,18 @@ export default function NotePage({
             </tr>
           </thead>
           <tbody>
-            {!showAnimalNotes &&
-              !showKeeperNotes &&
-              notes.map((note) => (
+            {notes
+              .filter(
+                (note) =>
+                  (selectedAnimalId === "" ||
+                    note.animalId === parseInt(selectedAnimalId)) &&
+                  (selectedKeeperId === "" ||
+                    note.keeperId === parseInt(selectedKeeperId))
+              )
+              .map((filteredNote) => (
                 <Note
-                  key={note.noteId}
-                  note={note}
+                  key={filteredNote.noteId}
+                  note={filteredNote}
                   keepers={keepers}
                   animals={animals}
                   updateNote={updateNote}
@@ -291,42 +291,6 @@ export default function NotePage({
                   setUpdatedNote={setUpdatedNote}
                 />
               ))}
-            {showAnimalNotes &&
-              notes
-                .filter((note) => note.animalId === selectedAnimal)
-                .map((filteredNote) => (
-                  <Note
-                    key={filteredNote.noteId}
-                    note={filteredNote}
-                    keepers={keepers}
-                    animals={animals}
-                    updateNote={updateNote}
-                    setShowUpdate={setShowUpdate}
-                    findAuthor={findAuthor}
-                    findSubject={findSubject}
-                    setUpdatedNote={setUpdatedNote}
-                  />
-                ))}
-            {showKeeperNotes &&
-              notes
-                .filter((note) => {
-                  if (note.keeperId === parseInt(selectedKeeperId)) {
-                    return note;
-                  }
-                })
-                .map((filteredNote) => (
-                  <Note
-                    key={filteredNote.noteId}
-                    note={filteredNote}
-                    keepers={keepers}
-                    animals={animals}
-                    updateNote={updateNote}
-                    setShowUpdate={setShowUpdate}
-                    findAuthor={findAuthor}
-                    findSubject={findSubject}
-                    setUpdatedNote={setUpdatedNote}
-                  />
-                ))}
           </tbody>
         </Table>
       </div>
