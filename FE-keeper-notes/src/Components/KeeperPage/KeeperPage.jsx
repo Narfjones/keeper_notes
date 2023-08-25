@@ -8,7 +8,7 @@ import {
   Col,
   Container,
 } from "react-bootstrap";
-import Keeper from "../Components/Keeper";
+import Keeper from "./Keeper";
 
 export default function Keepers({
   keepers,

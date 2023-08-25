@@ -8,7 +8,7 @@ import {
   Button,
   Table,
 } from "react-bootstrap";
-import Note from "../Components/Note";
+import Note from "./Note";
 
 export default function NotePage({
   notes,

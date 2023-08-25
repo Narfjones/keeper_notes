@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-import AnimalPage from "./pages/AnimalPage";
-import KeeperPage from "./pages/KeeperPage";
-import NotePage from "./pages/NotePage";
-import Home from "./pages/Home";
+import AnimalPage from "./Components/AnimalPage/AnimalPage";
+import KeeperPage from "./Components/KeeperPage/KeeperPage";
+import NotePage from "./Components/NotePage/NotePage";
 import Layout from "./Components/Layout";
+import Home from "./Components/Home";
 
 function App() {
   const [keepers, setKeepers] = React.useState([]);

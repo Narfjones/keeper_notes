@@ -1,12 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
-export default function Animal({
-  animal,
-  deleteAnimal,
-  setUpdatedAnimal,
-  setShowUpdate,
-}) {
+export default function Animal({ animal, deleteAnimal, setUpdatedAnimal }) {
   return (
     <tr key={animal.animalId}>
       <td className="fst-italic">{animal.species}</td>
@@ -25,7 +20,6 @@ export default function Animal({
           className="btn-sm m-1 p-1"
           variant="info"
           onClick={() => {
-            setShowUpdate(true);
             setUpdatedAnimal(animal);
           }}
         >
