@@ -2,10 +2,9 @@ import React from "react";
 
 import { Button, Modal } from "react-bootstrap";
 
-export default function KeeperTable({
+export default function Keeper({
   keeper,
   deleteKeeper,
-  setShowUpdate,
   setShowAssign,
   setShowDischarge,
   setSelectedKeeper,
@@ -48,7 +47,6 @@ export default function KeeperTable({
             className="btn-sm mx-1 my-1"
             variant="dark"
             onClick={() => {
-              setShowUpdate(true);
               setUpdatedKeeper(keeper);
             }}
           >

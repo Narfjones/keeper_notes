@@ -20,7 +20,6 @@ export default function UpdateAnimalForm({
     e.preventDefault;
     updateAnimal(updatedAnimal);
     setUpdatedAnimal(null);
-    //setShowUpdate(false);
   };
 
   return (

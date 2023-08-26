@@ -1,16 +1,10 @@
 import React from "react";
-import {
-  Button,
-  Table,
-  Form,
-  Alert,
-  Row,
-  Col,
-  Container,
-} from "react-bootstrap";
-import Keeper from "./Keeper";
+import { Button, Form, Alert } from "react-bootstrap";
+import AddKeeperForm from "./AddKeeperForm";
+import UpdateKeeperForm from "./UpdateKeeperForm";
+import KeeperTable from "./KeeperTable";
 
-export default function Keepers({
+export default function KeeperPage({
   keepers,
   animals,
   assignAnimal,
@@ -22,47 +16,12 @@ export default function Keepers({
   setShowError,
   errorMessage,
 }) {
-  const emptyKeeper = {
-    firstName: "",
-    lastName: "",
-    radioNumber: "",
-  };
-
   const [showFormAlert, setShowFormAlert] = React.useState(false);
-  const [selectedKeeper, setSelectedKeeper] = React.useState({});
+  const [selectedKeeper, setSelectedKeeper] = React.useState(null);
   const [animalId, setAnimalId] = React.useState("");
   const [showAssign, setShowAssign] = React.useState(false);
   const [showDischarge, setShowDischarge] = React.useState(false);
-  const [showUpdate, setShowUpdate] = React.useState(false);
-  const [newKeeper, setNewKeeper] = React.useState(emptyKeeper);
-  const [updatedKeeper, setUpdatedKeeper] = React.useState({});
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewKeeper((prevData) => {
-      return {
-        ...prevData,
-        [name]: value,
-      };
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault;
-    //console.log(newKeeper);
-
-    if (Object.values(newKeeper).includes("")) {
-      setShow(true);
-      return;
-    }
-
-    addNewKeeper(newKeeper);
-    setNewKeeper({
-      firstName: "",
-      lastName: "",
-      radioNumber: "",
-    });
-  };
+  const [updatedKeeper, setUpdatedKeeper] = React.useState(null);
 
   const handleAssignmentChange = (e) => {
     const { value } = e.target;
@@ -82,22 +41,6 @@ export default function Keepers({
     setShowDischarge(false);
     setSelectedKeeper({});
     setAnimalId("");
-  };
-
-  const handleUpdateChange = (e) => {
-    const { name, value } = e.target;
-    setUpdatedKeeper((prevData) => {
-      return {
-        ...prevData,
-        [name]: value,
-      };
-    });
-  };
-
-  const handleUpdateSubmit = (e) => {
-    e.preventDefault;
-    updateKeeper(updatedKeeper);
-    setShowUpdate(false);
   };
 
   return (
@@ -121,89 +64,19 @@ export default function Keepers({
         >
           {errorMessage}
         </Alert>
-        <Form>
-          <Container>
-            <Row>
-              <Col sm>
-                <Form.Group className="mb-3">
-                  <Form.Label>First Name</Form.Label>
-                  <Form.Control
-                    placeholder="First Name"
-                    type="text"
-                    name="firstName"
-                    onChange={handleChange}
-                    value={newKeeper.firstName}
-                  />
-                </Form.Group>
-              </Col>
-              <Col sm>
-                <Form.Group className="mb-3">
-                  <Form.Label>Last Name</Form.Label>
-                  <Form.Control
-                    placeholder="Last Name"
-                    type="text"
-                    name="lastName"
-                    onChange={handleChange}
-                    value={newKeeper.lastName}
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col sm={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Radio Number (must be a whole number)</Form.Label>
-                  <Form.Control
-                    placeholder="Enter a whole number"
-                    type="number"
-                    name="radioNumber"
-                    onChange={handleChange}
-                    value={newKeeper.radioNumber}
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col sm={2}>
-                <Button
-                  variant="info"
-                  className="ms-auto"
-                  onClick={handleSubmit}
-                >
-                  Submit
-                </Button>
-              </Col>
-            </Row>
-          </Container>
-        </Form>
+        <AddKeeperForm
+          addNewKeeper={addNewKeeper}
+          setShowFormAlert={setShowFormAlert}
+        />
       </div>
-      <div className="keeperTable bg-light m-3 p-3 table-responsive">
-        <h3>Registered Keepers</h3>
-        <Table className="text-center  table-hover ">
-          <thead>
-            <tr>
-              <th>Keeper Name</th>
-              <th>Radio Number</th>
-              <th>Assigned animals</th>
-              <th>Options</th>
-            </tr>
-          </thead>
-          <tbody>
-            {keepers.map((keeper) => (
-              <Keeper
-                key={keeper.keeperId}
-                keeper={keeper}
-                deleteKeeper={deleteKeeper}
-                setShowAssign={setShowAssign}
-                setShowUpdate={setShowUpdate}
-                setShowDischarge={setShowDischarge}
-                setSelectedKeeper={setSelectedKeeper}
-                setUpdatedKeeper={setUpdatedKeeper}
-              />
-            ))}
-          </tbody>
-        </Table>
-      </div>
+      <KeeperTable
+        keepers={keepers}
+        deleteKeeper={deleteKeeper}
+        setShowAssign={setShowAssign}
+        setShowDischarge={setShowDischarge}
+        setSelectedKeeper={setSelectedKeeper}
+        setUpdatedKeeper={setUpdatedKeeper}
+      />
       {showAssign && (
         <div
           id="assignSection"
@@ -294,76 +167,12 @@ export default function Keepers({
           </div>
         </div>
       )}
-      {showUpdate && (
-        <div
-          id="updateSection"
-          className="text-white text center p-5 container"
-        >
-          {console.log(updatedKeeper)}
-          <h4 className="row">
-            Update information for{" "}
-            {updatedKeeper.firstName + " " + updatedKeeper.lastName}
-          </h4>
-          <Form>
-            <Container>
-              <Row>
-                <Col xs>
-                  <Form.Group className="mb-3">
-                    <Form.Label>First Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="firstName"
-                      onChange={handleUpdateChange}
-                      value={updatedKeeper.firstName}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col xs>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Last Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="lastName"
-                      onChange={handleUpdateChange}
-                      value={updatedKeeper.lastName}
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>
-                      Radio Number (must be a whole number)
-                    </Form.Label>
-                    <Form.Control
-                      type="number"
-                      name="radioNumber"
-                      onChange={handleUpdateChange}
-                      value={updatedKeeper.radioNumber}
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
-            </Container>
-          </Form>
-          <div className="row justify-content-around mt-3">
-            <Button
-              variant="light"
-              className="col-3"
-              onClick={() => setShowUpdate(false)}
-            >
-              Close
-            </Button>
-            <Button
-              variant="danger"
-              className="col-3"
-              onClick={handleUpdateSubmit}
-            >
-              Update
-            </Button>
-          </div>
-        </div>
+      {updatedKeeper != null && (
+        <UpdateKeeperForm
+          updatedKeeper={updatedKeeper}
+          setUpdatedKeeper={setUpdatedKeeper}
+          updateKeeper={updateKeeper}
+        />
       )}
     </div>
   );
