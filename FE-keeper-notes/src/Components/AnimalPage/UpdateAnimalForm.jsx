@@ -86,19 +86,15 @@ export default function UpdateAnimalForm({
           </Row>
         </Container>
       </Form>
-      <div className="row justify-content-center">
+      <div className="row justify-content-around mt-3">
         <Button
           variant="light"
-          className="col-2 m-5"
+          className="col-3"
           onClick={() => setUpdatedAnimal(null)}
         >
           Close
         </Button>
-        <Button
-          variant="info"
-          className="col-2 m-5"
-          onClick={handleUpdateSubmit}
-        >
+        <Button variant="info" className="col-3" onClick={handleUpdateSubmit}>
           Update
         </Button>
       </div>

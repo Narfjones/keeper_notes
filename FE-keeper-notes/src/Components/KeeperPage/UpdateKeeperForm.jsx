@@ -5,6 +5,7 @@ export default function UpdateKeeperForm({
   updatedKeeper,
   setUpdatedKeeper,
   updateKeeper,
+  setShowFormAlert,
 }) {
   const handleUpdateChange = (e) => {
     const { name, value } = e.target;
@@ -18,12 +19,18 @@ export default function UpdateKeeperForm({
 
   const handleUpdateSubmit = (e) => {
     e.preventDefault;
+
+    if (Object.values(updatedKeeper).includes("")) {
+      setShowFormAlert(true);
+      setUpdatedKeeper(null);
+      return;
+    }
     updateKeeper(updatedKeeper);
     setUpdatedKeeper(null);
   };
   return (
     <div id="updateSection" className="text-white text center p-5 container">
-      {console.log(updatedKeeper)}
+      {/* {console.log(updatedKeeper)} */}
       <h4 className="row">
         Update information for{" "}
         {updatedKeeper.firstName + " " + updatedKeeper.lastName}

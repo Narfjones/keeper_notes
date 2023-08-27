@@ -1,4 +1,10 @@
 import React from "react";
+import {
+  FaTrashCan,
+  FaPenToSquare,
+  FaHeartCirclePlus,
+  FaHeartCircleMinus,
+} from "react-icons/fa6";
 
 import { Button, Modal } from "react-bootstrap";
 
@@ -21,7 +27,7 @@ export default function Keeper({
           ))}
         </ul>
       </td>
-      <td className="col-3">
+      <td>
         <div>
           <Button
             className="btn-sm mx-1 my-1"
@@ -30,8 +36,9 @@ export default function Keeper({
               setShowAssign(true);
               setSelectedKeeper(keeper);
             }}
+            title="Assign care"
           >
-            Assign
+            <FaHeartCirclePlus />
           </Button>
           <Button
             className="btn-sm mx-1 my-1"
@@ -40,24 +47,27 @@ export default function Keeper({
               setShowDischarge(true);
               setSelectedKeeper(keeper);
             }}
+            title="Discharge care"
           >
-            Discharge
+            <FaHeartCircleMinus />
           </Button>
           <Button
             className="btn-sm mx-1 my-1"
-            variant="dark"
+            variant="info"
             onClick={() => {
               setUpdatedKeeper(keeper);
             }}
+            title="Edit"
           >
-            Update
+            <FaPenToSquare />
           </Button>
           <Button
             className="btn-sm mx-1 my-1"
-            variant="dark"
+            variant="danger"
             onClick={() => deleteKeeper(keeper.keeperId)}
+            title="Delete"
           >
-            Remove
+            <FaTrashCan />
           </Button>
         </div>
       </td>

@@ -1,11 +1,11 @@
 import React from "react";
 import { Button } from "react-bootstrap";
+import { FaPenToSquare } from "react-icons/fa6";
 
 export default function Note({
   note,
   keepers,
   animals,
-  setShowUpdate,
   findAuthor,
   findSubject,
   setUpdatedNote,
@@ -22,9 +22,7 @@ export default function Note({
       <td>{convertDate(note.createdAt)}</td>
       <td>{note.noteText}</td>
       <td>
-        {note.keeperId === null
-          ? "former keeper"
-          : findAuthor(note.keeperId, keepers)}
+        {!note.keeperId ? "former keeper" : findAuthor(note.keeperId, keepers)}
       </td>
       <td>{findSubject(note.animalId, animals)}</td>
       <td>
@@ -34,13 +32,14 @@ export default function Note({
       </td>
       <td>
         <Button
+          className="btn-sm"
           variant="info"
           onClick={() => {
-            setShowUpdate(true);
             setUpdatedNote(note);
           }}
+          title="Edit"
         >
-          Update
+          <FaPenToSquare />
         </Button>
       </td>
     </tr>

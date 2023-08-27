@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
+import { FaTrashCan, FaPenToSquare } from "react-icons/fa6";
 
 export default function Animal({ animal, deleteAnimal, setUpdatedAnimal }) {
   return (
@@ -17,20 +18,22 @@ export default function Animal({ animal, deleteAnimal, setUpdatedAnimal }) {
       </td>
       <td className="col-3">
         <Button
-          className="btn-sm m-1 p-1"
+          className=" m-1 p-1"
           variant="info"
           onClick={() => {
             setUpdatedAnimal(animal);
           }}
+          title="Edit"
         >
-          Update
+          <FaPenToSquare />
         </Button>
         <Button
-          className="btn-sm m-1 p-1"
+          className=" m-1 p-1"
           variant="danger"
           onClick={() => deleteAnimal(animal.animalId)}
+          title="Delete"
         >
-          Delete
+          <FaTrashCan />
         </Button>
       </td>
     </tr>
