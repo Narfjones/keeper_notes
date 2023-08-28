@@ -33,4 +33,25 @@ public class KeeperData {
 			animals.add(animal.getAnimalName() + ": " + animal.getCommonName() + ", " + animal.getLocation());
 		}
 	}
+	
+	public KeeperData(Long keeperId, String firstName, String lastName, Long radioNumber) {
+		this.keeperId = keeperId;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.radioNumber = radioNumber;
+	}
+	
+	public Keeper toKeeper() {
+		Keeper keeper = new Keeper();
+		
+		keeper.setKeeperId(keeperId);
+		keeper.setFirstName(firstName);
+		keeper.setLastName(lastName);
+		keeper.setRadioNumber(radioNumber);
+		
+		for(NoteData noteData : notes) {
+			keeper.getNotes().add(noteData.toNote());
+		}
+		return keeper;
+	}
 }

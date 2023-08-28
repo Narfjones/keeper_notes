@@ -26,4 +26,16 @@ public class NoteData {
 		animalId = note.getAnimal().getAnimalId();	
 		
 	}
+
+	public Note toNote() {
+		Note note = new Note();
+		
+		note.setNoteId(noteId);
+		note.setCreatedAt(createdAt);
+		note.setNoteText(noteText);
+		note.setUpdatedAt(updatedAt);
+		
+		return note;
+	}
+
 }

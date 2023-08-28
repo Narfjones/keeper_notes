@@ -1,0 +1,51 @@
+package keeper.notes.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.jdbc.JdbcTestUtils;
+
+import keeper.notes.controller.model.KeeperData;
+import keeper.notes.entity.Keeper;
+
+public class KeeperNotesTestSupport {
+	private static final String KEEPER_TABLE = "keeper";
+
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	private KeeperNotesController keeperNotesController;
+	
+	protected int rowsInKeeperTable() {
+		return JdbcTestUtils.countRowsInTable(jdbcTemplate, KEEPER_TABLE);
+	}
+
+	protected KeeperData insertKeeper(KeeperData keeperData) {
+		Keeper keeper = keeperData.toKeeper();
+		KeeperData clone = new KeeperData(keeper);
+		
+		clone.setKeeperId(null);
+		return keeperNotesController.addKeeper(clone);
+	}
+
+	protected KeeperData buildInsertKeeper(int which) {
+		return which == 1 ? insertKeeper1 : insertKeeper2;
+	}
+	
+	//@formatter:off
+	private KeeperData insertKeeper1 = new KeeperData(
+			1L,
+			"Rachel",
+			"VanHorn",
+			922L
+			);
+	
+	private KeeperData insertKeeper2 = new KeeperData(
+			2L,
+			"Beth",
+			"Klochak",
+			912L
+			);
+	//@formatter:on
+	
+}
