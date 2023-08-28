@@ -23,7 +23,7 @@ export default function Home() {
         <hr />
       </Row>
       <Row>
-        <Col>
+        <Col sm className="my-2">
           <Card>
             <Card.Body>
               <Card.Title>Front End</Card.Title>
@@ -49,7 +49,7 @@ export default function Home() {
             </Card.Body>
           </Card>
         </Col>
-        <Col>
+        <Col sm className="my-2">
           <Card>
             <Card.Body>
               <Card.Title>Back End</Card.Title>
