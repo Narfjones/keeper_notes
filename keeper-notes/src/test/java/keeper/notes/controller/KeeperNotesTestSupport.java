@@ -7,9 +7,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
 import keeper.notes.controller.model.KeeperData;
+import keeper.notes.controller.model.NoteData;
+import keeper.notes.entity.Animal;
 import keeper.notes.entity.Keeper;
+import keeper.notes.entity.Note;
 
 public class KeeperNotesTestSupport {
+	private static final String NOTE_TABLE = "note";
+
 	private static final String ANIMAL_TABLE = "animal";
 
 	private static final String ANIMAL_KEEPER_TABLE = "animal_keeper";
@@ -45,6 +50,24 @@ public class KeeperNotesTestSupport {
 	
 	@Autowired
 	private KeeperNotesController keeperNotesController;
+	
+	protected int rowsInNoteTable() {
+		return JdbcTestUtils.countRowsInTable(jdbcTemplate, NOTE_TABLE);
+	}
+
+	protected NoteData insertNote(NoteData noteData) {
+		Note note = noteData.toNote();
+		NoteData clone = new NoteData(note);
+		Long animalId = clone.getAnimalId();
+		Long keeperId = clone.getKeeperId();
+		
+		clone.setNoteId(null);
+		return keeperNotesController.createNote(keeperId, animalId, clone);
+	}
+
+	protected NoteData buildInsertNote(int which) {
+		return which == 1 ? insertNote1 : insertNote2;
+	}
 	
 	protected int rowsInKeeperTable() {
 		return JdbcTestUtils.countRowsInTable(jdbcTemplate, KEEPER_TABLE);
@@ -82,6 +105,20 @@ public class KeeperNotesTestSupport {
 			"Tim",
 			"Samson",
 			913L
+			);
+	
+	private NoteData insertNote1 = new NoteData(
+			1L,
+			"ate all of his dinner",
+			1L,
+			1L
+			);
+	
+	private NoteData insertNote2 = new NoteData(
+			2L,
+			"ate no dinner",
+			1L,
+			1L
 			);
 	//@formatter:on
 	

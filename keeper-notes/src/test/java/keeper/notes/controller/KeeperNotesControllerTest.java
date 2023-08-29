@@ -3,6 +3,8 @@ package keeper.notes.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.function.IntPredicate;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,6 +14,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import keeper.notes.KeeperNotesApplication;
 import keeper.notes.controller.model.KeeperData;
+import keeper.notes.controller.model.NoteData;
 
 @SpringBootTest(webEnvironment = WebEnvironment.NONE, classes = KeeperNotesApplication.class )
 @ActiveProfiles("test")
@@ -99,6 +102,37 @@ class KeeperNotesControllerTest extends KeeperNotesTestSupport{
 		//And: the number of animal rows has not changed.
 		assertThat(rowsInAnimalTable()).isEqualTo(animalRows);
 	}
+	
+	@Test
+	void testDeleteKeeperWithNote() {
+		//Given: a keeper with 1 note about an animal
+		KeeperData keeper = insertKeeper(buildInsertKeeper(1));
+		Long keeperId = keeper.getKeeperId();
+		insertAnimal(1);
+		NoteData note = insertNote(buildInsertNote(1));		
+		
+		assertThat(rowsInKeeperTable()).isOne();
+		assertThat(rowsInAnimalTable()).isOne();
+		assertThat(rowsInNoteTable()).isOne();
+		int animalRows = rowsInAnimalTable();
+		int noteRows = rowsInNoteTable();
+		
+		//When: the keeper is deleted
+		deleteKeeper(keeperId);
+		
+		//Then: there are no keeper rows
+		assertThat(rowsInKeeperTable()).isZero();
+		
+		
+		//And: the number of animal rows and note rows have not changed
+		assertThat(rowsInAnimalTable()).isEqualTo(animalRows);
+		assertThat(rowsInNoteTable()).isEqualTo(noteRows);
+		
+		//And: the keeperId for the note has been set to Null.
+		assertThat(Objects.isNull(note.getKeeperId()));
+	}
+
+	
 
 	
 }
