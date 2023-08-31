@@ -46,6 +46,12 @@ export default function AddNoteForm({
   return (
     <div className="addNoteForm bg-light p-3 mx-3">
       <h3>Create a Note</h3>
+      {(animals.length === 0 || keepers.length === 0) && (
+        <h4>
+          ***You must have one keeper and one animal registered before creating
+          a note.***
+        </h4>
+      )}
       <Alert
         show={showFormAlert}
         variant="danger"

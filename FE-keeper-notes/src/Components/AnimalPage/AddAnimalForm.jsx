@@ -46,6 +46,7 @@ export default function AddAnimalForm({
   return (
     <div className="addAnimalForm p-3 mx-3 bg-light">
       <h3>Accession an animal</h3>
+
       <Alert
         show={showFormAlert}
         variant="danger"

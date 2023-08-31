@@ -10,6 +10,9 @@ export default function AnimalTable({
   return (
     <div className="animalTable bg-light m-3 p-3 table-responsive">
       <h3>Current Animals</h3>
+      {animals.length === 0 && (
+        <h4>***There are no animals currently accessioned***</h4>
+      )}
       <Table className="text-center table-hover">
         <thead>
           <tr>
