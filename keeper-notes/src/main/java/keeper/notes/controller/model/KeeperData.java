@@ -9,6 +9,8 @@ import keeper.notes.entity.Note;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+/*This class sets up a data transfer object for the Keeper entity*/
 @Data
 @NoArgsConstructor
 public class KeeperData {
@@ -19,6 +21,8 @@ public class KeeperData {
 	private Set<NoteData> notes = new HashSet<>();
 	private Set<String> animals = new HashSet<>();
 	
+	
+	/*This constructor creates a KeeperData object based off of a Keeper object*/
 	public KeeperData(Keeper keeper) {
 		keeperId = keeper.getKeeperId();
 		firstName = keeper.getFirstName();
@@ -34,6 +38,7 @@ public class KeeperData {
 		}
 	}
 	
+	/*This constructor was set up to use with integration testing*/
 	public KeeperData(Long keeperId, String firstName, String lastName, Long radioNumber) {
 		this.keeperId = keeperId;
 		this.firstName = firstName;
@@ -41,6 +46,8 @@ public class KeeperData {
 		this.radioNumber = radioNumber;
 	}
 	
+	
+	/*This method was set up to use with integration testing so that a KeeperData object could be changed to a Keeper object*/
 	public Keeper toKeeper() {
 		Keeper keeper = new Keeper();
 		

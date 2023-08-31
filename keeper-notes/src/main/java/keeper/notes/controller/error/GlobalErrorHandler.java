@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import lombok.extern.slf4j.Slf4j;
 
+/*This annotation tells Spring that this is where to look for handling exceptions*/
 @RestControllerAdvice
 @Slf4j
 public class GlobalErrorHandler {
 
+	/*This is the handler for all NoSuchElementExceptions*/
 		@ExceptionHandler(NoSuchElementException.class)
 		@ResponseStatus(code = HttpStatus.NOT_FOUND)
 		public Map<String, String> handleNoSuchElementException(NoSuchElementException ex){
@@ -24,6 +26,7 @@ public class GlobalErrorHandler {
 			return exceptionMap;
 		}
 		
+	/*This is the handler for all IllegalArgumentExceptions*/
 		@ExceptionHandler(IllegalArgumentException.class)
 		@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 		public Map<String, String> handleIllegalArgumentException(IllegalArgumentException ex){

@@ -9,6 +9,8 @@ import keeper.notes.entity.Note;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+/*This class sets up a data transfer object for the Note entity*/
 @Data
 @NoArgsConstructor
 public class NoteData {
@@ -19,6 +21,7 @@ public class NoteData {
 	private Long keeperId;
 	private Long animalId;
 	
+	/*This constructor creates a NoteData object based off of a Note object*/
 	public NoteData(Note note) {
 		noteId = note.getNoteId();
 		createdAt = note.getCreatedAt();
@@ -29,6 +32,7 @@ public class NoteData {
 		
 	}
 	
+	/*This constructor was set up to use with integration testing*/
 	public NoteData(Long noteId, String noteText, Long keeperId, Long animalId) {
 		this.noteId = noteId;
 		this.noteText = noteText;
@@ -38,6 +42,7 @@ public class NoteData {
 		this.updatedAt = new Timestamp(System.currentTimeMillis());
 	}
 
+	/*This method was set up to use with integration testing so that a NoteData object could be changed to a Note object*/
 	public Note toNote() {
 		Note note = new Note();
 		Animal animal = new Animal();

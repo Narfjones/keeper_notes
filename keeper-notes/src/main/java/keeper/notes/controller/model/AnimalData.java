@@ -9,6 +9,8 @@ import keeper.notes.entity.Note;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+/*This class sets up a data transfer object for the Animal entity*/
 @Data
 @NoArgsConstructor
 public class AnimalData {
@@ -20,6 +22,8 @@ public class AnimalData {
 	private Set<NoteData> notes = new HashSet<>();
 	private Set<String> keepers = new HashSet<>();
 	
+	
+	/*This constructor creates an AnimalData object based off of an Animal object*/
 	public AnimalData(Animal animal) {
 		animalId = animal.getAnimalId();
 		species = animal.getSpecies();

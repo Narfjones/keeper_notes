@@ -31,8 +31,10 @@ public class KeeperNotesService {
 	@Autowired
 	private NoteDao noteDao;
 
-	/* Keeper table methods */
+	/*********** Keeper table methods ***********/
 
+	/*This method saves a keeper, it is used by the POST method to create
+	 * a new keeper and also by the PUT method to update a keeper. It calls several helper methods*/
 	@Transactional(readOnly = false)
 	public KeeperData saveKeeper(KeeperData keeperData) {
 		Keeper keeper = findOrCreateKeeper(keeperData.getKeeperId());
@@ -42,6 +44,9 @@ public class KeeperNotesService {
 		return new KeeperData(dbKeeper);
 	}
 
+	/*This method returns a list of KeeperData as JSON. It uses the built in method from the KeeperDao interface
+	 * that finds all rows or instances of a keeper in the table. It then changes the data from a Keeper object to a 
+	 * KeeperData object and adds them to a List of KeeperData*/
 	@Transactional(readOnly = true)
 	public List<KeeperData> retrieveAllKeepers() {
 		List<Keeper> keepers = keeperDao.findAll();
@@ -54,12 +59,16 @@ public class KeeperNotesService {
 		return kdList;
 	}
 
+	/*This method uses the helper method findKeeperById to retrieve a keeper by the ID in the path variable*/
 	@Transactional(readOnly = true)
 	public KeeperData retrieveKeeperById(Long keeperId) {
 		Keeper keeper = findKeeperById(keeperId);
 		return new KeeperData(keeper);
 	}
 
+	/*This method uses the findKeeperById helper method and then uses the KeeperDao interface built in delete method
+	 * to remove the appropriate row from the Keeper table. Nothing is returned from this method, but the
+	 * controller layer does log a confirmation that the keeper was deleted when this runs with no exceptions.*/
 	@Transactional(readOnly = false)
 	public void deleteKeeperById(Long keeperId) {
 		Keeper keeper = findKeeperById(keeperId);
@@ -67,6 +76,7 @@ public class KeeperNotesService {
 
 	}
 
+	/*Helper method that copies keeper info from a KeeperData object to a Keeper object*/
 	private void copyKeeperData(Keeper keeper, KeeperData keeperData) {
 		keeper.setKeeperId(keeperData.getKeeperId());
 		keeper.setFirstName(keeperData.getFirstName());
@@ -75,6 +85,7 @@ public class KeeperNotesService {
 
 	}
 
+	/*Helper method that finds a keeper by ID or if no ID is found, creates a new Keeper object*/
 	private Keeper findOrCreateKeeper(Long keeperId) {
 		Keeper keeper;
 
@@ -87,13 +98,21 @@ public class KeeperNotesService {
 		return keeper;
 	}
 
+	/*Helper method that finds a keeper by their ID, since it could return an optional from the DAO, we follow up the 
+	 * call to the KeeperDao with an orElseThrow declaration that would provide an exception if the keeper ID being searched
+	 * for does not exist.*/
 	private Keeper findKeeperById(Long keeperId) {
 		return keeperDao.findById(keeperId)
 				.orElseThrow(() -> new NoSuchElementException("Keeper with ID=" + keeperId + " does not exist."));
 	}
 
-	/* Animal Table Methods */
+	/*********** End Keeper table methods ***********/
+	
+	
+	/*********** Animal table methods ***********/
 
+	/*This method saves an animal, it is used by the POST method to create
+	 * a new animal and also by the PUT method to update an animal. It calls several helper methods*/
 	@Transactional(readOnly = false)
 	public AnimalData saveAnimal(AnimalData animalData) {
 		Animal animal = findOrCreateAnimal(animalData.getAnimalId());
@@ -103,6 +122,9 @@ public class KeeperNotesService {
 		return new AnimalData(dbAnimal);
 	}
 
+	/*This method returns a list of AnimalData as JSON. It uses the built in method from the AnimalDao interface
+	 * that finds all rows or instances of an animal in the table. It then changes the data from an Animal object to an 
+	 * AnimalData object and adds them to a List of AnimalData*/
 	@Transactional(readOnly = true)
 	public List<AnimalData> retrieveAllAnimals() {
 		List<Animal> animals = animalDao.findAll();
@@ -115,12 +137,16 @@ public class KeeperNotesService {
 		return adList;
 	}
 
+	/*This method uses the helper method findAnimalById to retrieve an animal by the ID in the path variable*/
 	@Transactional(readOnly = true)
 	public AnimalData retrieveAnimalById(Long animalId) {
 		Animal animal = findAnimalById(animalId);
 		return new AnimalData(animal);
 	}
 
+	/*This method uses the findAnimalById helper method and then uses the AnimalDao interface's built in delete method
+	 * to remove the appropriate row from the Animal table. Nothing is returned from this method, but the
+	 * controller layer does log a confirmation that the animal was deleted when this runs with no exceptions.*/
 	@Transactional(readOnly = false)
 	public void deleteAnimalById(Long animalId) {
 		Animal animal = findAnimalById(animalId);
@@ -128,25 +154,8 @@ public class KeeperNotesService {
 
 	}
 	
-	@Transactional(readOnly = true)
-	public List<AnimalData> listAllAnimalsAssignedToKeeper(Long keeperId) {
-		findKeeperById(keeperId);
-		List<Animal> animals = animalDao.findAll();
-		List<AnimalData> animalList = new LinkedList<>();
-		
-		for (Animal animal : animals) {
-			for(Keeper keeper : animal.getKeepers()) {
-				if(keeper.getKeeperId().equals(keeperId)) {
-					AnimalData temp = new AnimalData(animal);
-					animalList.add(temp);
-				}
-			}
-		}
-		return animalList;
-		
-	}
-
-
+	
+	/*Helper method that copies animal info from an AnimalData object to an Animal object*/
 	private void copyAnimalData(Animal animal, AnimalData animalData) {
 		animal.setAnimalId(animalData.getAnimalId());
 		animal.setSpecies(animalData.getSpecies());
@@ -154,7 +163,8 @@ public class KeeperNotesService {
 		animal.setAnimalName(animalData.getAnimalName());
 		animal.setLocation(animalData.getLocation());
 	}
-
+	
+	/*Helper method that finds an animal by ID or if no ID is found, creates a new Animal object*/
 	private Animal findOrCreateAnimal(Long animalId) {
 		Animal animal;
 
@@ -166,13 +176,26 @@ public class KeeperNotesService {
 		return animal;
 	}
 
+	/*Helper method that finds an animal by their ID, since it could return an optional from the DAO, we follow up the 
+	 * call to the AnimalDao with an orElseThrow declaration that would provide an exception if the animal ID being searched
+	 * for does not exist.*/
 	private Animal findAnimalById(Long animalId) {
 		return animalDao.findById(animalId)
 				.orElseThrow(() -> new NoSuchElementException("Animal with ID=" + animalId + " does not exist."));
 	}
+	
+	/*********** End Animal table methods ***********/
 
-	/* Join Table methods */
-
+	
+	
+	/*********** Join (animal_keeper) table methods ***********/
+	
+	/*This method creates a row in the animal_keeper join table, connecting an animal with a keeper. It first finds
+	 * both the keeper and animal by the IDs in the path variables and checks to see if they exist in the findByID methods for
+	 * both animal and keeper. It then checks to make sure the animal is not already assigned to the keeper and if it is,
+	 * throws an illegal argument exception saying that the animal is already assigned to that keeper. If they are not already
+	 * associated in the join table, then the animal is added to the keeper's list of animals and the keeper is added to the
+	 * animal's list of keepers and both are saved using the built in DAO save method.*/
 	@Transactional(readOnly = false)
 	public KeeperData assignAnimalToKeeper(Long keeperId, Long animalId) {
 		Keeper keeper = findKeeperById(keeperId);
@@ -192,6 +215,12 @@ public class KeeperNotesService {
 		
 	}
 	
+	/*This method deletes a row in the animal_keeper join table, disconnecting an animal from a keeper. It first finds
+	 * both the keeper and animal by the IDs in the path variables and checks to see if they exist in the findByID methods for
+	 * both animal and keeper. It then checks to make sure the animal is assigned to the keeper and if it is not,
+	 * throws an illegal argument exception saying that the animal is not assigned to that keeper. If they are
+	 * associated in the join table, then the animal is removed from the keeper's list of animals and the keeper is removed from the
+	 * animal's list of keepers and both are saved using the built in DAO save method.*/
 	@Transactional(readOnly = false)
 	public KeeperData removeAnimalFromKeeper(Long keeperId, Long animalId) {
 		Keeper keeper = findKeeperById(keeperId);
@@ -209,9 +238,38 @@ public class KeeperNotesService {
 		}
 		
 	}
+	
+	/*This method returns a list of AnimalData containing only animals assigned to the keeper specified in the path variable
+	 * of the GET request. It uses the findKeeperById helper method and the AnimalDao build in method to create a list of all the animals, 
+	 * then uses a nested enhanced for loop to loop through all of the animals and check to see if they are assigned to the keeper with the ID 
+	 * specified. If the animal is associated with the keeper ID on the animal_keeper join table, then it is added to a new List and once
+	 * the loop is completed, that list is returned as a List of AnimalData objects.*/
+	@Transactional(readOnly = true)
+	public List<AnimalData> listAllAnimalsAssignedToKeeper(Long keeperId) {
+		findKeeperById(keeperId);
+		List<Animal> animals = animalDao.findAll();
+		List<AnimalData> animalList = new LinkedList<>();
+		
+		for (Animal animal : animals) {
+			for(Keeper keeper : animal.getKeepers()) {
+				if(keeper.getKeeperId().equals(keeperId)) {
+					AnimalData temp = new AnimalData(animal);
+					animalList.add(temp);
+				}
+			}
+		}
+		return animalList;
+		
+	}
+	
+	/*********** End Join table methods ***********/
 
-	/* Note Table methods */
+	
+	
+	/*********** Note table methods ***********/
 
+	/*This method saves a note, it is used by the POST method to create
+	 * a new note and also by the PUT method to update a note. It calls the findOrCreateNote helper method*/
 	@Transactional(readOnly = false)
 	public NoteData saveNote(Long keeperId, Long animalId, NoteData noteData) {
 		Keeper keeper = findKeeperById(keeperId);
@@ -227,6 +285,9 @@ public class KeeperNotesService {
 		return new NoteData(dbNote);
 	}
 
+	/*This method returns a list of NoteData as JSON. It uses the built in method from the NoteDao interface
+	 * that finds all rows or instances of a note in the table. It then changes the data from a Note object to a
+	 * NoteData object and adds them to a List of NoteData*/
 	@Transactional(readOnly = true)
 	public List<NoteData> retrieveAllNotes() {
 		List<Note> notes = noteDao.findAll();
@@ -239,12 +300,15 @@ public class KeeperNotesService {
 		return ndList;
 	}
 
+	/*This method finds a specific note by the id passed in a path variable. It uses the findNoteById helper method to
+	 * search for the note with the specific ID.*/
 	@Transactional(readOnly = true)
 	public NoteData retrieveNoteById(Long noteId) {
 		Note note = findNoteById(noteId);
 		return new NoteData(note);
 	}
 
+	/*Helper method that finds a note by ID or if no ID is found, creates a new Note object*/
 	private Note findOrCreateNote(Long noteId) {
 		Note note;
 
@@ -256,11 +320,19 @@ public class KeeperNotesService {
 		return note;
 	}
 
+	/*Helper method that finds a note by its ID, since it could return an optional from the DAO, we follow up the 
+	 * call to the NoteDao with an orElseThrow declaration that would provide an exception if the note ID being searched
+	 * for does not exist.*/
 	private Note findNoteById(Long noteId) {
 		return noteDao.findById(noteId)
 				.orElseThrow(() -> new NoSuchElementException("Note with ID=" + noteId + " does not exist."));
 	}
 	
+	/*This method returns a list of NoteData containing only notes created by the keeper specified in the path variable
+	 * of the GET request. It uses the findKeeperById helper method and the NoteDao's built in method to create a list of all the notes, 
+	 * then uses a nested enhanced for loop to loop through all of the notes and check to see if they have the ID of the specified keeper 
+	 * as a foreign key. If the note was created by the keeper with that ID, then it is added to a new List and once
+	 * the loop is completed, that list is returned as a List of NoteData objects.*/
 	@Transactional(readOnly = true)
 	public List<NoteData> listAllNotesByKeeper(Long keeperId) {
 		findKeeperById(keeperId);
@@ -275,6 +347,12 @@ public class KeeperNotesService {
 		}
 		return keeperNotesList;
 	}
+	
+	/*This method returns a list of NoteData containing only notes created about the animal specified in the path variable
+	 * of the GET request. It uses the findAnimalById helper method and the NoteDao's built in method to create a list of all the notes, 
+	 * then uses a nested enhanced for loop to loop through all of the notes and check to see if they have the animal_id of the specified animal 
+	 * as a foreign key. If the note was created about the specified animal, then it is added to a new List and once
+	 * the loop is completed, that list is returned as a List of NoteData objects.*/
 	@Transactional(readOnly = true)
 	public List<NoteData> listAllNotesAboutAnimal(Long animalId) {
 		findAnimalById(animalId);
@@ -290,5 +368,6 @@ public class KeeperNotesService {
 		return animalNotesList;
 	}
 
+	/*********** End Note table methods ***********/
 	
 }

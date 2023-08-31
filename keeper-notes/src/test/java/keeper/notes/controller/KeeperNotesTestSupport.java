@@ -8,7 +8,6 @@ import org.springframework.test.jdbc.JdbcTestUtils;
 
 import keeper.notes.controller.model.KeeperData;
 import keeper.notes.controller.model.NoteData;
-import keeper.notes.entity.Animal;
 import keeper.notes.entity.Keeper;
 import keeper.notes.entity.Note;
 
