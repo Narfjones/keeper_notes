@@ -1,0 +1,53 @@
+{
+	"firstName" : "Stephanie",
+	"lastName" : "Back",
+	"radioNumber" : "910"
+	
+},
+
+{
+	"firstName" : "Michael",
+	"lastName" : "Goeres",
+	"radioNumber" : "929"
+	
+},
+
+{
+	"firstName" : "Lisa",
+	"lastName" : "Smith",
+	"radioNumber" : "915"
+	
+},
+
+{
+	"species" : "Crocuta crocuta",
+	"commonName" : "Spotted hyena",
+	"animalName" : "Gigi",
+	"location" : "African carnivores exhibit"
+},
+
+{
+	"species" : "Panthera tigris",
+	"commonName" : "Tiger",
+	"animalName" : "Urod",
+	"location" : "Animal hospital holding"
+},
+
+{
+	"species" : "Psittacus erithacus",
+	"commonName" : "African Grey Parrot",
+	"animalName" : "Nolan",
+	"location" : "Parrots of Africa exhibit"
+},
+
+{
+	"noteText": "Behavior seemed off today, requested vet consult"
+},
+
+{
+	"noteText": "Left part of last night's dier"
+},
+
+{
+	"noteText": "Weight today: 200kg"
+}
