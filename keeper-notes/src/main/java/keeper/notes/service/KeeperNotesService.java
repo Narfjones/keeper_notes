@@ -340,9 +340,11 @@ public class KeeperNotesService {
 		List<NoteData> keeperNotesList = new LinkedList<>();
 
 		for (Note note : notes) {
-			if(note.getKeeper().getKeeperId().equals(keeperId)) {
-				NoteData temp = new NoteData(note);
-				keeperNotesList.add(temp);				
+			if(!Objects.isNull(note.getKeeper())) {
+				if(note.getKeeper().getKeeperId().equals(keeperId)) {
+					NoteData temp = new NoteData(note);
+					keeperNotesList.add(temp);				
+				}				
 			}
 		}
 		return keeperNotesList;
