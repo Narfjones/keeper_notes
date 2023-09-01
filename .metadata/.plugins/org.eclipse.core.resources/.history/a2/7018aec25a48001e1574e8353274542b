@@ -11,7 +11,7 @@ spring:
 
    sql:
       init:
-         mode: always
+         mode: never
   
  #When you clone and run this please set sql.init.mode to always on the first run to populate tables and data.
  #Do not change jpa.hibernate.ddl-auto. Keep it as none.      
