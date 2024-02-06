@@ -13,7 +13,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-
+<div align="center"><img src="KNKeepers.png" height="300"><img src="KNAnimals.png" height="300"><img src="KNNotes.png" height="300"><img src="KNERD.png" height="300"></div>
 
 A comprehensive full-stack application designed for use in zoos and animal care facilities, enabling users to
 execute all CRUD operations on a specifically tailored database via a user-friendly front-end client. The
